@@ -1,0 +1,21 @@
+/* Dario Aguilar Rodriguez */
+
+h1:before
+{
+    content:"\1F63B";
+    margin-right: 8px;
+}
+
+h1:after
+{
+    content:"\1F63B";
+    margin-right: 8px;
+}
+
+
+li::before
+{
+    content:"\1F63B";
+    margin-right: 8px;
+}
+

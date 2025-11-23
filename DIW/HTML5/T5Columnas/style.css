@@ -1,0 +1,73 @@
+/* Dario Aguilar Rodriguez */
+
+.cabecera
+{
+    background-color: black;
+    color:#f96;
+}
+
+body
+{
+    background-color:#eed;
+    font-family: verdana;
+}
+
+.titulo
+{
+    color:#00a;
+    font-size:1.8em;
+    padding:0.5em;
+}
+
+img
+{
+    height: auto;
+    margin-bottom: 0.5em;
+    margin-top: 0.2em;
+    max-width: 100%;
+}
+
+.contenedor
+{
+    display: flex;
+    flex-wrap: nowrap; 
+    gap: 10px;         
+    margin-left:1.3em;
+}
+
+.columna1
+{
+    background-color: #999;
+    font-size: 1em;
+    width: 21%;
+    padding: 2%;
+    box-sizing: border-box;
+}
+
+a
+{
+    color:#cfc;
+}
+
+a:hover 
+{
+    color: red;
+}
+
+.columna2
+{
+    flex: 1;
+    background-color: #ddd;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+footer
+{
+    background-color: #bbb;
+    color:#900;
+    padding: 2%;
+    text-align: center;
+    clear:both;
+}
+

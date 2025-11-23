@@ -1,0 +1,40 @@
+body
+{
+    margin: 0;  
+    text-align: center;
+}
+
+h4
+{
+    text-align: left;
+    margin-left: 20px;
+}
+
+#div1
+{
+    font-size: 20px;
+    border: solid;
+    width: 200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+#div2
+{
+    font-size: 20px;
+    border: solid;
+    display: inline-block; 
+    width: 200px;
+    margin: 0 10px;       /* separación entre divs */
+
+}
+
+#div4
+{
+    font-size: 20px;
+    border: solid;
+    display: inline-block; 
+    width: 200px;
+    margin: 0 250px;       /* separación entre divs */
+
+}

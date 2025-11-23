@@ -1,0 +1,47 @@
+1. html
+
+→ Inserta tu plantilla HTML básica.
+
+2. formulario
+
+→ Inserta un formulario con inputs, select y botón.
+
+3. tabla
+
+→ Inserta tabla HTML con foreach mostrando productos.
+
+4. foreach
+
+→ Inserta un bloque foreach con filas de tabla.
+
+5. for
+
+→ Inserta un bloque for con filas de tabla y endfor.
+
+6. clase
+
+→ Inserta la clase Contrato extendiendo Documento e implementando FirmaDigital.
+
+7. claseAbstracta
+
+→ Inserta clase abstracta Documento con atributos, constructor y destructor.
+
+8. toStringMagico
+
+→ Inserta método mágico __toString() con lógica completa.
+
+9. getMagico
+
+→ Inserta método mágico __get().
+
+10. setMagico
+
+→ Inserta método mágico __set().
+
+11. interface
+
+→ Inserta interfaz entregable con tres métodos.
+
+12. array
+
+→ Inserta la función obtenerProveedorA() con un array de productos.

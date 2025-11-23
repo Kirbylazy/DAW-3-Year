@@ -1,0 +1,42 @@
+/* Dario Aguilar Rodriguez */
+
+* {
+    box-sizing: border-box; /* con esto conseguimos que hover no se salga del recuadro */
+}
+
+ul {
+    border: 1px solid #ffc83d;
+    width: 140px;
+    background-color: #e5f3fe;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    list-style: none;
+    border-bottom: 1px solid #ffc83d;
+    width: 100%;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+li a {
+    display: block;
+    width: 100%;
+    color: black;
+    text-decoration: none;
+    padding: 10px 5px;
+}
+
+li a:before {
+    content: "🤙";
+    margin-right: 5px;
+}
+
+li a:hover {
+    background-color: #c8e2f7;
+    color: black;
+}
+

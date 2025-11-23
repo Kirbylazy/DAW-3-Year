@@ -1,0 +1,37 @@
+body {
+      background-color: yellow;       /* Fondo amarillo */
+      font-family: Arial, sans-serif; /* Fuente legible */
+    }
+
+h1 {
+      text-align: center;             /* Centrar el título */
+      color: orange;                  /* Color del texto */
+    }
+
+a {
+      text-align: center;
+      color: red;                     /* Color de los enlaces */
+      text-decoration: none;          /* Quita el subrayado */
+    }
+
+ /* Enlaces no visitados */
+    a:link {
+      color: red;                 /* Rojo */
+      text-decoration: underline; /* Subrayado */
+    }
+
+    /* Enlaces visitados */
+    a:visited {
+      color: purple;              /* Púrpura */
+    }
+
+    /* Enlaces al pasar el ratón (hover) */
+    a:hover {
+      color: green;               /* Verde */
+      text-decoration: none;      /* Sin subrayado */
+    }
+
+    /* Enlace activo (cuando se hace clic) */
+    a:active {
+      color: lime;                /* Lima */
+    }

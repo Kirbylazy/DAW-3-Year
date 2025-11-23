@@ -1,0 +1,49 @@
+body {
+  font-family: Verdana;
+  background-color: #f9f9f9;
+  margin: 40px;
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
+
+img {
+  width: 400px;
+  height: 200px;
+  border-radius: 8px;
+}
+
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  border: 1px black;
+}
+
+td, th {
+  border: 1px black;
+  padding: 10px;
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.volver {
+  display: block;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+ul {
+  display: inline-block;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

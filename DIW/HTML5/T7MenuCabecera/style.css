@@ -1,0 +1,48 @@
+/* Dario Aguilar Rodriguez */
+
+html
+{
+    font-family: arial;
+}
+
+nav
+{
+    padding-top: 30px;
+    padding-left:0px;
+}
+
+nav ul
+{
+    list-style-type: none;
+    text-align: left;
+    margin:0px;
+    padding:0px;
+}
+
+
+nav li
+{
+    display: inline-block;
+}
+
+nav li a
+{
+    width: 100px;
+    color: white;          
+    text-decoration: none;
+    padding: 10px 5px 10px 5px;
+    border-right: 1px solid #336699;
+    background-color: black;
+    font-weight: bold;
+}
+
+nav li a:hover
+{
+    background-color:#336699;
+}
+
+nav li:last-child a
+{
+    border-right: none;
+}
+
