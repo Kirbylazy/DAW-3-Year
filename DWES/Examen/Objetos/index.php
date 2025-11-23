@@ -39,6 +39,8 @@ echo "<br>";
 echo cliente::getClientela();
 echo "<br>";
 
+// Esto es un comentario de pruebas
+
 
 
 
