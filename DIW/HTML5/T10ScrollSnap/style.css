@@ -1,0 +1,67 @@
+/* Dario Aguilar Rodriguez */
+
+.contenedor-scroll {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+}
+
+.seccion1 {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(238, 124, 136, 0.74);
+    scroll-snap-align: start;
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.seccion2 {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(153, 255, 147, 0.74);
+    scroll-snap-align: start;
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.seccion3 {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(125, 112, 239, 0.74);
+    scroll-snap-align: start;
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.seccion4 {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(255, 255, 121, 0.963);
+    scroll-snap-align: start;
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.seccion5 {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(238, 124, 236);
+    scroll-snap-align: start;
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
