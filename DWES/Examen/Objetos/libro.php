@@ -10,16 +10,13 @@ class libro extends papel implements iEmbalaje
     
     public function __construct(int $a, int $l, bool $dc, int $p)
     {
-        return parent::__construct($a, $l, $dc);
-        $this::$dobleCara = true;
-        $this->$paginas = $p;
-        $this->$alto = $p / 100;
-        parent::$paginasGastadas = parent::$paginasGastadas + $p;
+        parent::__construct($a, $l, $dc);
+        self::$paginasGastadas = self::$paginasGastadas + $p;
     }
 
     public function __destruct()
     {
-        parent::$paginasRecicladas = parent::$paginasRecicladas - $this->paginas;
+        self::$paginasRecicladas = self::$paginasRecicladas + $this->paginas;
     }
 
     public function __toString()
@@ -29,7 +26,7 @@ class libro extends papel implements iEmbalaje
 
     public function calcularEspacio()
     {
-        return parent::$ancho * parent::$largo * $this->alto;
+        return $this->ancho * $this->largo * $this->alto;
     }
 
 
