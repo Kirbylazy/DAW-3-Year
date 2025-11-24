@@ -1,0 +1,58 @@
+/* Dario Aguilar Rodriguez */
+
+html {
+    font-family: Arial;
+}
+
+nav {
+    padding-top: 30px;
+    padding-left: 0px;
+}
+
+nav ul {
+    list-style-type: none;
+    text-align: left;
+    margin: 0px;
+    padding: 0px;
+}
+
+nav li {
+    display: inline-block;
+}
+
+nav li a {
+    width: 100px;
+    color: white;          
+    text-decoration: none;
+    padding: 10px 5px;
+    border-right: 1px solid #336699;
+    background-color: black;
+    font-weight: bold;
+
+    /* He tenido que meter todos los retardos en el mismo
+    transition por que si no solo me leia el ultimo */
+    transition: background-color 1s, 
+    font-size 1s, 
+    padding 1s;
+}
+
+/* Estilos individuales por caja */
+.caja1 a:hover {
+    background-color: #336699;
+}
+
+.caja2 a:hover {
+    font-size: 28px;
+}
+
+.caja3 a:hover {
+    padding: 30px;
+}
+
+.caja4 a:hover {
+    background-color: #990033;
+}
+
+nav li:last-child a {
+    border-right: none;
+}
