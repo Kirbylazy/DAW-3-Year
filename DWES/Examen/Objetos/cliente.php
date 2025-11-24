@@ -21,12 +21,12 @@ class cliente
 
     public function comprar($p)
     {
-        if ($this->producto = "")
+        if ($this->producto == "")
         {
             $this->producto = [$p];
         }else 
         {
-            $this->producto = $p;
+            $this->producto[] = $p;
         }
     }
 
