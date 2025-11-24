@@ -11,7 +11,8 @@ class cliente
         $this->nombre = $n;
         $this->producto = "";
         self::$clientela++;
-        return $this->nombre . " creado";
+        echo $this->nombre . " creado";
+        echo "<br>";
     }
 
     public function __destruct()
