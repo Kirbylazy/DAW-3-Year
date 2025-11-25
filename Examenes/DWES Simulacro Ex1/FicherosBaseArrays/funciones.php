@@ -14,6 +14,20 @@
 function crearBaraja() :array {
     $palos = ['Oros', 'Copas', 'Espadas', 'Bastos'];
     $baraja = [];
+
+    foreach ($palos as $palo) {
+        $baraja [] = ["palo" => $palo, "valor" => "1"];
+        $baraja [] = ["palo" => $palo, "valor" => "2"];
+        $baraja [] = ["palo" => $palo, "valor" => "3"];
+        $baraja [] = ["palo" => $palo, "valor" => "4"];
+        $baraja [] = ["palo" => $palo, "valor" => "5"];
+        $baraja [] = ["palo" => $palo, "valor" => "6"];
+        $baraja [] = ["palo" => $palo, "valor" => "7"];
+        $baraja [] = ["palo" => $palo, "valor" => "zota"];
+        $baraja [] = ["palo" => $palo, "valor" => "caballo"];
+        $baraja [] = ["palo" => $palo, "valor" => "rey"];
+    }
+    
     
     // Se implementa la baraja completa
 
@@ -28,6 +42,10 @@ function crearBaraja() :array {
  */
 function obtenerSecuencia() :array {
 
+    $secuencia = [1,2,3,4,5,6,7,"zota","caballo","rey"];
+
+    return $secuencia;
+
 }
 
 /**
@@ -39,6 +57,13 @@ function obtenerSecuencia() :array {
  */
 function inicializarJugadores($cantidad) : array{
 
+    $jugadores = [];
+
+    foreach (range(1,$cantidad) as $n) {
+        $jugadores [] = ["nombre" => "Jugador".$n, "activo" => true];
+    }
+    return $jugadores;
+
 }
 
 /**
@@ -48,6 +73,15 @@ function inicializarJugadores($cantidad) : array{
  * @return int Cantidad de jugadores activos
  */
 function contarActivos($jugadores) {
+    $cont = 0;
+
+    foreach ($jugadores as $jugador) {
+        if($jugador["activo"]){
+            $cont++;
+        }
+    }
+
+    return $cont;
 
 }
 
@@ -61,6 +95,21 @@ function contarActivos($jugadores) {
  */
 function siguienteActivo($jugadores, $actual) {
 
+    $total = count($jugadores);
+
+    // Si ya no hay jugadores o queda solo 1
+    if ($total <= 1) return 0;
+
+    // Avanzar al siguiente índice
+    $actual++;
+
+    // Si se sale del array, volver al principio
+    if ($actual >= $total) {
+        $actual = 0;
+    }
+
+    return $actual;
+
 }
 
 /**
@@ -70,7 +119,14 @@ function siguienteActivo($jugadores, $actual) {
  * @return array Array con los nombres de los ganadores
  */
 function obtenerGanadores($jugadores) : array{
+    $ganadores = $jugadores;
+    foreach ($ganadores as $indice => $jugador) {
+        if ($jugador["activo"] == false){
+            unset($ganadores[$indice]);
+        }
+    }
 
+    return $ganadores;
 }
 
 /**
@@ -82,15 +138,60 @@ function obtenerGanadores($jugadores) : array{
  */
 function jugarPartida($numJugadores) {
     // Crear y barajar la baraja
+    $baraja = crearBaraja();
 
     // Mezclar cartas
+    shuffle($baraja);
+
+
     
     // Obtener la secuencia de enunciación
     
     // Inicializar jugadores
+
+    $jugadores = inicializarJugadores($numJugadores);
+    $jugadoresActivos = $jugadores;
         
     // Array para almacenar el historial de jugadas
 
+    $mensaje = [];
+    $jugador = count($jugadores)-1;
+    $secuencia = obtenerSecuencia();
+    $carta = 0;
+
+        for ($i=0; $i < 4; $i++):
+
+            if (contarActivos($jugadoresActivos) <= 1){
+                    break;
+                }
+
+            foreach ($secuencia as $valor):
+                $jugador = siguienteActivo($jugadoresActivos,$jugador);
+                if($baraja[$carta]["valor"] == $valor){
+
+                    $mensaje [] = "Turno " . ($carta+1) . ": " . $jugadoresActivos[$jugador]["nombre"].
+                                " saca la carta: Palo - " . $baraja[$carta]["palo"].
+                                ", Valor - " . $baraja[$carta]["valor"] . "<strong> ELIMINADO</strong>";
+
+                    unset($jugadoresActivos[$jugador]);
+                    $jugadoresActivos = array_values($jugadoresActivos);
+                    $jugadores[$jugador]["activo"]=false;
+
+                }else{
+                    $mensaje [] = "Turno " . ($carta+1) . ": " . $jugadoresActivos[$jugador]["nombre"].
+                                    " saca la carta: Palo - " . $baraja[$carta]["palo"].
+                                    ", Valor - " . $baraja[$carta]["valor"] . " Se salva";
+                }
+
+                if (contarActivos($jugadoresActivos) <= 1){
+                    break;
+                }
+
+                $carta++;
+            endforeach;
+        endfor;
+        
+    return $mensaje;
     // Jugar hasta que se acaben las cartas o quede solo un jugador
 
         // Si el jugador actual no está activo, buscar el siguiente
