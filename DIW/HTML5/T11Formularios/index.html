@@ -1,0 +1,84 @@
+<!-- Dario Aguilar Rodriguez -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formularios</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+</head>
+<body>
+
+<h2>Formulario</h2>
+
+<form method="get" action="">
+
+    <!-- Nombre -->
+    <label for="nombre">
+        <span class="material-icons-outlined">person</span>
+    </label>
+    <input type="text" name="nombre" id="nombre" required maxlength="50" placeholder="Nombre">
+
+    <!-- Apellidos -->
+    <label for="apellidos"><br><br>
+        Apellidos
+    </label>
+    <input type="text" name="apellidos" id="apellidos" required maxlength="50">
+
+    <!-- Sexo -->
+    <br><br>
+    <label>
+        <input type="radio" name="sexo" value="hombre" required>
+        Hombre
+    </label>
+    <label>
+        <input type="radio" name="sexo" value="mujer">
+        Mujer
+    </label>
+
+    <!-- Correo -->
+    <label for="correo"><br><br>
+        <span class="material-icons-outlined">mail</span>
+    </label>
+    <input type="text" name="correo" id="correo" required placeholder="Correo Electrónico">
+
+    <!-- Población -->
+    <label for="poblacion"><br><br>
+        Población
+    </label>
+    <select id="poblacion" name="poblacion">
+        <option value="alicante">Alicante</option>
+        <option value="madrid">Madrid</option>
+        <option value="sevilla">Sevilla</option>
+        <option value="valencia">Valencia</option>
+    </select>
+
+    <!-- Checkbox información -->
+    <label><br><br>
+        <input type="checkbox" name="info" value="1">
+        Acepto recibir más información
+    </label>
+
+    <!-- Checkbox términos -->
+    <label><br><br>
+        <input type="checkbox" name="terminos" value="1" checked>
+        Acepto los términos
+    </label>
+
+    <!-- Comentarios -->
+    <br><br>
+    <label for="comentarios">
+        Comentarios:
+    </label><br>
+    <textarea id="comentarios" name="comentarios" rows="5" cols="30" placeholder="Escribe aquí tu comentario..."></textarea>
+
+    <br><br>
+    <button type="submit" name="enviar">
+        Enviar
+    </button>
+
+</form>
+
+</body>
+</html>
