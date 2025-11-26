@@ -29,12 +29,12 @@ class fotocopia extends papel
 
     public function getPaginasGastadas()
     {
-        return parent::$paginasGastadas;
+        return self::$paginasGastadas;
     }
 
     public function getPaginasRecicladas()
     {
-        return parent::$paginasRecicladas;
+        return self::$paginasRecicladas;
     }
 }
 

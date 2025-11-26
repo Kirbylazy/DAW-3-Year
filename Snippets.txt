@@ -1,0 +1,74 @@
+🟥 Snippets de HTML y estructuración
+1. html
+
+→ Plantilla HTML básica (doctype + head + body).
+
+2. formulario
+
+→ Formulario básico con dos números, select y botón.
+
+3. formulario2
+
+→ Formulario + switch + resultado (versión larga).
+
+4. tabla
+
+→ Tabla HTML con foreach para mostrar productos.
+
+🟦 Snippets de bucles
+5. foreach
+
+→ Bucle foreach con filas de tabla.
+
+6. for
+
+→ Bucle for con tabla y endfor.
+
+🟩 Snippets de clases PHP
+7. clase
+
+→ Clase Contrato extendiendo Documento.
+
+8. claseAbstracta
+
+→ Clase abstracta Documento.
+
+9. abstracta
+
+→ Clase abstracta papel (tu versión para papel.php).
+
+10. self
+
+→ Clase libro extendiendo papel e implementando iEmbalaje.
+
+🟨 Snippets de métodos mágicos
+11. toStringMagico
+
+→ Método __toString() con lógica detallada.
+
+12. getMagico
+
+→ Método __get().
+
+13. setMagico
+
+→ Método __set().
+
+🟫 Snippets de interfaces
+14. interface
+
+→ Interfaz entregable con tres métodos.
+
+🟪 Snippets de arrays / datos
+15. array
+
+→ Función obtenerProveedorA() con array de productos.
+
+🟧 Snippets grandes de proyectos
+16. proveedores
+
+→ Página completa del sistema de inventario de tres proveedores.
+
+17. calculadora
+
+→ Calculadora completa con formulario + switch + resultado.
