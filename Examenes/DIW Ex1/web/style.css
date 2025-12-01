@@ -1,0 +1,175 @@
+/* Dario Aguilar Rodriguez */
+
+/* PROPIEDADES DE TODA LA PAGINA */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* PROPIEDADES DE LA CABECERA */
+header {
+    background-color: #3a2c1e;
+    padding: 10px 0;
+}
+
+.logo-contenedor {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 45px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: background-color 0.2s linear;
+}
+
+nav a:hover {
+    background-color: #6b4f33;
+    cursor: pointer;
+}
+
+/* PROPIEDADES DE LA SECCION DE LA IMAGEN */
+.hero {
+    background-image: url("imagenes/autumn-4470022_640.jpg");
+    height: 380px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    text-align: center;
+    color: white;
+    padding-top: 100px;
+}
+
+.hero h1 {
+    font-size: 45px;
+}
+
+/* PROPIEDADES DE LA SECCIÓN "SOLO PERROS" */
+.solo-perros {
+    background-color: #f68b1e;
+    text-align: center;
+    padding: 10px 0;
+    color: #3a2c1e;
+    font-weight: bold;
+}
+
+/* PROPIEDADES DE LA ULTIMA SECCIÓN */
+.contenedor {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f4dfca;
+    padding: 30px;
+}
+
+/* PROPIEDADES COMUNES A TODOS LOS DIVS */
+.col h3 {
+    margin-top: 0;
+}
+
+.col {
+    width: 30%;
+    text-align: justify;
+}
+
+.col ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* PROPIEDADES SOLO DE LAS DIFERENTES RAZAS */
+.raza {
+    margin-left: 15px;
+}
+
+.raza::before
+{
+    content:"🐺";
+}
+
+.raza > a
+{
+    text-decoration: none;
+    color: black;
+}
+
+.raza > a:hover
+{
+    color: #f68b1e;
+}
+
+/* PROPIEDADES DEL ULTIMO ENLACE DE RAZAS */
+.col > ul > li > a
+{
+    text-decoration: none;
+    color: black;
+}
+
+.col > ul > li > a:hover
+{
+    color: #f68b1e;
+}
+
+/* PROPIEDADES DEL FORMULARIO */
+input{
+    width: 90%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    transition: transform 0.25s ease;
+}
+
+textarea {
+    width: 90%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    transition: transform 0.25s ease;
+}
+
+input:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    border-color: black;
+}
+
+textarea:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    border-color: black;
+}
+
+button {
+    margin-top: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    width: 100%;
+    border: none;
+    background-color: #f68b1e;
+    color: white;
+    transition: background 0.2s linear;
+}
+
+button:hover {
+    background-color: #bd5e00;
+    cursor: pointer;
+}
+
+/* PROPIEDADES DEL ENLACE FINAL DEL DIV DEL TEXTO */
+.ley {
+    color: #3a2c1e;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ley:hover {
+    color: #ee8114;
+}
