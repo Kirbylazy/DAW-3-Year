@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>cookies</title>
+     <!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+    <body>
+
+    <h2>Introduce tu nombre</h2>
+    
+        <!-- Creamos un formulario para recoger todos los datos -->
+    
+        <form method="post" action="">
+    
+            <!-- Pedimos el primer numero -->
+    
+            <label for="n1">Nombre:</label>
+            <input type="text" name="n" id="n" required>
+    
+            <button type="submit" name="confirmar">Enviar</button>
+            <p><br></p>
+    
+        </form>
+    
+        <?php
+    
+        // Recogemos todos los datos desde el post
+    
+        if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    
+            // Asignamos a cada variable su valor
+    
+            $n = $_POST["n"];
+    
+            // Una vez pulsado el botón podemos empezar a operar
+    
+            if (isset($_POST['confirmar'])) {
+    
+                setcookie('nombre',$n,time()+5);
+                header('location: p2.php');
+                exit();
+
+            }
+        }
+        ?>
+
+    </body>
+</html>

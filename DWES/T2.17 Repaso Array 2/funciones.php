@@ -19,7 +19,8 @@ mb_internal_encoding('UTF-8');
  * @return array Array con los nombres de las categorías
  */
 function obtenerCategorias(array $productos): array {
-    // TODO: Implementar
+
+    return array_keys($productos);
 }
 
 /**
@@ -29,7 +30,8 @@ function obtenerCategorias(array $productos): array {
  * @return array Array con los IDs de clientes
  */
 function obtenerIdsClientesAux(array $clientes): array {
-    // TODO: Implementar
+
+    return array_keys($clientes);
 }
 
 /**
@@ -39,7 +41,8 @@ function obtenerIdsClientesAux(array $clientes): array {
  * @return array Array con los nombres de departamentos
  */
 function obtenerDepartamentos(array $empleados): array {
-    // TODO: Implementar
+
+    return array_keys($empleados);
 }
 
 // ============================================
@@ -55,7 +58,8 @@ function obtenerDepartamentos(array $empleados): array {
  * @return int Cantidad de productos en la categoría
  */
 function contarProductosPorCategoria(array $productos, string $categoria): int {
-    // TODO: Implementar
+    
+    return count($productos[$categoria]);
 }
 
 /**
