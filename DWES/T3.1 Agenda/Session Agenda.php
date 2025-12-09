@@ -1,4 +1,5 @@
 <?php
+//Dario Aguilar Rodriguez
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
