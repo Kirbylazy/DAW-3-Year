@@ -1,76 +1,74 @@
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    if (isset($_POST['login'])) {
+        $_SESSION['agenda'] = []; 
+    }
+
+    if (isset($_POST['guardar'])) {
+        $n = $_POST["n"];
+        $_SESSION['agenda'][] = $n;
+    }
+
+    if (isset($_POST['logout'])) {
+        session_unset();      
+        session_destroy();    
+        header("Location: ".$_SERVER['PHP_SELF']); // Recarga la página para volver al login
+        exit();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Agenda</title>
-     <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
-    <body>
+<body>
+
+<?php if (!isset($_SESSION['agenda'])): ?>
+
+    <!-- FORMULARIO LOGIN -->
+    <h2>Iniciar sesión</h2>
+    <form method="post">
+        <button type="submit" name="login">Login</button>
+    </form>
+
+<?php else: ?>
 
     <h2>Introduce tu nombre</h2>
-    
-        <!-- Creamos un formulario para recoger todos los datos -->
-    
-        <form method="post" action="">
-    
-            <!-- Pedimos el primer numero -->
-    
-            <label for="n1">Nombre:</label>
-            <input type="text" name="n" id="n" required>
-    
-            <button type="submit" name="guardar">Guardar</button>
-            <button type="submit" name="mostrar">Mostrar</button>
-            <p><br></p>
-    
-        </form>
-    
-        <?php
 
-        session_start();
+    <form method="post">
+        <label for="n">Nombre:</label>
+        <input type="text" name="n" id="n" required>
+        <button type="submit" name="guardar">Guardar</button>
+        <button type="submit" name="mostrar">Mostrar</button>
+    </form>
 
-        $agenda = [];
-    
-        // Recogemos todos los datos desde el post
-    
-        if ($_SERVER["REQUEST_METHOD"] == "POST"):
-    
-            // Asignamos a cada variable su valor
-    
-            $n = $_POST["n"];
-    
-            // Una vez pulsado el botón podemos empezar a operar
-    
-            if (isset($_POST['guardar'])) {
+   <?php 
+   if ($_SERVER["REQUEST_METHOD"] == "POST"):
 
-                if (isset($_SESSION['agenda'])){
-                    
-                    $agenda = $_SESSION['agenda'];
-                    $agenda [] = $n;
-                    $_SESSION['agenda'] = $agenda;
+    // MOSTRAR AGENDA
+    if (isset($_POST['mostrar'])):?>
 
-                }else{
-                    $agenda [] = $n;
-                    $_SESSION['agenda'] = $agenda;
-                }
-                
+    <h3>Agenda guardada:</h3>
+    <?php foreach ($_SESSION['agenda'] as $nombre): ?>
+        <p><?= $nombre ?></p>
+    <?php endforeach; ?>
 
-            }
+    <?php endif; endif; ?>
 
-            if (isset($_POST['mostrar'])):
+    <!-- BOTÓN LOGOUT -->
+    <form method="post">
+        <button type="submit" name="logout">
+            Logout
+        </button>
+    </form>
 
-                if (isset($_COOKIE['agenda'])):
+<?php endif; ?>
 
-                    $agenda = $_SESSION['agenda'];
-
-                    foreach ($agenda as $nombre): ?>
-                        <p><?= $nombre ?></p>
-                    <?php endforeach; ?>
-
-                <?php endif; ?>
-
-            <?php endif; ?>
-
-        <?php endif ?>
-
-    </body>
+</body>
 </html>
