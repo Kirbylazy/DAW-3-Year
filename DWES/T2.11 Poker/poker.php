@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
         session_unset();      
         session_destroy();    
-        header("Location: login.php"); // Recarga la página para volver al login
+        header("Location: index.php"); // Recarga la página para volver al login
         exit();
     }
 }
