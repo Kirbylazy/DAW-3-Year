@@ -85,7 +85,8 @@ function contarIdiomasCliente(array $clientes, string $idCliente): int {
  * @return bool True si lo ha comprado, false si no
  */
 function clienteComproProducto(array $clientes, string $idCliente, string $idProducto): bool {
-    // TODO: Implementar
+    
+    return in_array($idProducto, $clientes[$idCliente]['compras']);
 }
 
 /**
@@ -109,7 +110,13 @@ function obtenerIdsClientes(array $clientes): array {
  * @return float Precio máximo
  */
 function obtenerPrecioMaximoCategoria(array $productos, string $categoria): float {
-    // TODO: Implementar
+    
+    foreach ($productos[$categoria] as $producto){
+
+        $buffer [] = $producto['precio'];
+    }
+
+    return max($buffer);
 }
 
 // ============================================
@@ -124,7 +131,13 @@ function obtenerPrecioMaximoCategoria(array $productos, string $categoria): floa
  * @return array Array asociativo [id_cliente => cantidad_productos]
  */
 function contarComprasPorCliente(array $clientes): array {
-    // TODO: Implementar
+    
+    foreach ($clientes as $idCliente => $cliente){
+
+        $buffer [$idCliente] = count($cliente['compras']);
+    }
+
+    return $buffer;
 }
 
 /**
