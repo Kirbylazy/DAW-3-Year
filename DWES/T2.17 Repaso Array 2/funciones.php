@@ -71,7 +71,8 @@ function contarProductosPorCategoria(array $productos, string $categoria): int {
  * @return int Cantidad de idiomas
  */
 function contarIdiomasCliente(array $clientes, string $idCliente): int {
-    // TODO: Implementar
+    
+    return count($clientes[$idCliente]['idiomas']);
 }
 
 /**
@@ -95,7 +96,8 @@ function clienteComproProducto(array $clientes, string $idCliente, string $idPro
  * @return array Array con los IDs de clientes
  */
 function obtenerIdsClientes(array $clientes): array {
-    // TODO: Implementar
+    
+    return array_keys($clientes);
 }
 
 /**
