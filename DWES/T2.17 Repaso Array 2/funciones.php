@@ -150,7 +150,8 @@ function contarComprasPorCliente(array $clientes): array {
  * @return array Array con los nombres de idiomas del nivel especificado
  */
 function obtenerIdiomasPorNivel(array $clientes, string $idCliente, string $nivel): array {
-    // TODO: Implementar
+    
+    return array_keys($clientes[$idCliente]['idiomas'],$nivel);
 }
 
 /**

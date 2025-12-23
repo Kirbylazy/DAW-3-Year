@@ -1,3 +1,16 @@
+<!-- ### Ejercicio 2: Contar idiomas de un cliente
+**Función PHP:** `count`
+**Función a implementar:** `contarIdiomasCliente(array $clientes, string $idCliente): int`
+
+**Frontend:**
+- Formulario con select de clientes (generado dinámicamente con `obtenerIdsClientesAux()`)
+- Botón "Ejecutar"
+
+**Resultado a mostrar:**
+- Tabla con todos los idiomas del cliente
+- Columnas: Idioma, Nivel
+- Total de idiomas al final -->
+
 <?php
 include_once ('funciones.php'); 
 include_once ('datos.php');
