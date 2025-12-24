@@ -169,7 +169,13 @@ function obtenerIdiomasPorNivel(array $clientes, string $idCliente, string $nive
  * @return int Salario mínimo
  */
 function obtenerSalarioMinimoDepartamento(array $empleados, string $departamento): int {
-    // TODO: Implementar
+    
+    $buffer = [];
+    foreach ($empleados[$departamento] as $empleado){
+        $buffer[] = $empleado['salario'];
+    }
+
+    return min($buffer);
 }
 
 /**
@@ -182,7 +188,11 @@ function obtenerSalarioMinimoDepartamento(array $empleados, string $departamento
  * @return array IDs de productos no comprados por el cliente
  */
 function obtenerProductosNoComprados(array $productos, array $clientes, string $idCliente): array {
-    // TODO: Implementar
+    
+    $idsProductos = array_merge(...array_map('array_keys', $productos));
+    $idsComprados = $clientes[$idCliente]['compras'];
+
+    return array_diff($idsProductos, $idsComprados);
 }
 
 /**
@@ -194,7 +204,8 @@ function obtenerProductosNoComprados(array $productos, array $clientes, string $
  * @return array Array de idiomas reindexado desde 0
  */
 function reindexarIdiomasCliente(array $clientes, string $idCliente): array {
-    // TODO: Implementar
+    
+    return array_values($clientes[$idCliente]['idiomas']);
 }
 
 // ============================================

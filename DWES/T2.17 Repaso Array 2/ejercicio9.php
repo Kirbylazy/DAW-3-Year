@@ -1,3 +1,20 @@
+<!-- ### Ejercicio 9: Productos no comprados por cliente
+**Función PHP:** `array_diff`
+**Función a implementar:** `obtenerProductosNoComprados(array $productos, array $clientes, string $idCliente): array`
+
+**Frontend:**
+- Formulario con select de clientes (generado dinámicamente)
+- Botón "Ejecutar"
+
+**Resultado a mostrar:**
+- Tabla con productos NO comprados por el cliente
+- Total de productos sin comprar -->
+
+<?php
+include_once ('funciones.php'); 
+include_once ('datos.php');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
