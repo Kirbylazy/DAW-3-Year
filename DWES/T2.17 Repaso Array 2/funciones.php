@@ -109,14 +109,18 @@ function obtenerIdsClientes(array $clientes): array {
  * @param string $categoria Nombre de la categoría
  * @return float Precio máximo
  */
-function obtenerPrecioMaximoCategoria(array $productos, string $categoria): float {
-    
-    foreach ($productos[$categoria] as $producto){
+function obtenerPrecioMaximoCategoria(array $productos, string $categoria): array
+{
+    $maxProducto = null;
 
-        $buffer [] = $producto['precio'];
+    foreach ($productos[$categoria] as $id => $producto) {
+        if ($maxProducto === null || $producto['precio'] > $maxProducto['precio']) {
+            $maxProducto = $producto;
+            $maxProducto['id'] = $id;
+        }
     }
 
-    return max($buffer);
+    return $maxProducto;
 }
 
 // ============================================
