@@ -138,7 +138,9 @@ function contarComprasPorCliente(array $clientes): array {
     
     foreach ($clientes as $idCliente => $cliente){
 
-        $buffer [$idCliente] = count($cliente['compras']);
+        $buffer [$idCliente]['id'] = $idCliente;
+        $buffer [$idCliente]['nCompras'] = count($cliente['compras']);
+        $buffer [$idCliente]['productos'] = $cliente['compras'];
     }
 
     return $buffer;
