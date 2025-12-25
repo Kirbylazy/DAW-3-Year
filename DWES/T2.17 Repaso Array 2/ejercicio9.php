@@ -15,6 +15,7 @@ include_once ('funciones.php');
 include_once ('datos.php');
 ?>
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,14 +28,30 @@ include_once ('datos.php');
     <form method="POST">
         <label for="idCliente">ID Cliente:</label>
         <select name="idCliente" id="idCliente" required>
-            <option value="">-- Selecciona un cliente --</option>
-            <!-- TODO: Generar opciones dinamicamente con obtenerIdsClientesAux() -->
+            <?php $ids = obtenerIdsClientes($clientes);
+                    foreach ($ids as $id):?>
+            <option value="<?= $id ?>"><?= $id ?></option>
+            <?php endforeach ?>
         </select>
         <button type="submit" name="submit">Ejecutar</button>
     </form>
+    <?php 
+        if ($_SERVER["REQUEST_METHOD"] == "POST"):
 
-    <!-- TODO: Mostrar resultado cuando se envie el formulario -->
-    <!-- Debe mostrar tabla con productos NO comprados por el cliente -->
-    <!-- Debe mostrar el total de productos sin comprar -->
+                if (isset($_POST["submit"])):?>
+                <table border="1" cellpadding="5">
+                    <tr>
+                        <th>Cliente</th><th>Productos no comprados</th>
+                    </tr>
+                    <?php 
+                    $idCliente = $_POST['idCliente'];
+                    $productosNC = obtenerProductosNoComprados($productos, $clientes, $idCliente);?>
+                    <tr>
+                        <td><?= $idCliente ?></td>
+                        <td><?= implode(', ', $productosNC) ?> </td>
+                    </tr>
+        </table>
+    <?php endif ?> 
+    <?php endif ?> 
 </body>
 </html>

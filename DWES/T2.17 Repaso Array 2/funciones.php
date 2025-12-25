@@ -189,10 +189,10 @@ function obtenerSalarioMinimoDepartamento(array $empleados, string $departamento
  */
 function obtenerProductosNoComprados(array $productos, array $clientes, string $idCliente): array {
     
-    $idsProductos = array_merge(...array_map('array_keys', $productos));
+    $idsProductos = array_merge(...array_values(array_map('array_keys', $productos)));
     $idsComprados = $clientes[$idCliente]['compras'];
 
-    return array_diff($idsProductos, $idsComprados);
+    return array_values(array_diff($idsProductos, $idsComprados));
 }
 
 /**
