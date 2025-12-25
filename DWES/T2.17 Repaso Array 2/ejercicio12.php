@@ -1,3 +1,19 @@
+<!-- ### Ejercicio 12: Contar categorías de productos
+**Funciones PHP:** `array_keys` + `count`
+**Función a implementar:** `contarCategorias(array $productos): int`
+
+**Frontend:**
+- Formulario con solo botón "Ejecutar"
+
+**Resultado a mostrar:**
+- Número total de categorías
+- Tabla con categorías y cantidad de productos en cada una -->
+
+<?php
+include_once ('funciones.php'); 
+include_once ('datos.php');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

@@ -1,3 +1,19 @@
+<!-- ### Ejercicio 11: Productos únicos de proveedores
+**Función PHP:** `array_unique`
+**Función a implementar:** `obtenerProductosUnicos(array $proveedores): array`
+
+**Frontend:**
+- Formulario con solo botón "Ejecutar"
+
+**Resultado a mostrar:**
+- Tabla con productos únicos suministrados por todos los proveedores
+- Total de productos únicos -->
+
+<?php
+include_once ('funciones.php'); 
+include_once ('datos.php');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

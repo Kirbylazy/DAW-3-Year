@@ -1,3 +1,23 @@
+<!-- ### Ejercicio 15: N productos más baratos
+**Funciones PHP:** `sort` + `array_slice`
+**Función a implementar:** `obtenerProductosMasBaratos(array $productos, string $categoria, int $cantidad): array`
+
+**Frontend:**
+- Formulario con:
+  - Select de categorías (generado dinámicamente)
+  - Input number para cantidad (min: 1, max: 10, default: 2)
+- Botón "Ejecutar"
+
+**Resultado a mostrar:**
+- Tabla con los N precios más bajos
+- Tabla completa con todos los productos ordenados por precio
+- Columnas: ID, Nombre, Precio, Stock, Valoración -->
+
+<?php
+include_once ('funciones.php'); 
+include_once ('datos.php');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

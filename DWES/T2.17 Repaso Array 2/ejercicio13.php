@@ -1,3 +1,20 @@
+<!-- ### Ejercicio 13: Empleado mejor pagado
+**Funciones PHP:** `max` + `foreach`
+**Función a implementar:** `obtenerEmpleadoMejorPagado(array $empleados, string $departamento): string`
+
+**Frontend:**
+- Formulario con select de departamentos (generado dinámicamente)
+- Botón "Ejecutar"
+
+**Resultado a mostrar:**
+- Nombre del empleado mejor pagado
+- Tabla con todos los empleados del departamento -->
+
+<?php
+include_once ('funciones.php'); 
+include_once ('datos.php');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

@@ -220,7 +220,15 @@ function reindexarIdiomasCliente(array $clientes, string $idCliente): array {
  * @return array Array con IDs únicos de productos
  */
 function obtenerProductosUnicos(array $proveedores): array {
-    // TODO: Implementar
+
+    $productosU = [];
+    
+    foreach ($proveedores as $proveedor){
+
+        $productosU[] = array_merge($productosU, $proveedor['productos']);
+    }
+
+    return array_values(array_unique($productosU));
 }
 
 /**
@@ -231,7 +239,8 @@ function obtenerProductosUnicos(array $proveedores): array {
  * @return int Número de categorías
  */
 function contarCategorias(array $productos): int {
-    // TODO: Implementar
+    
+    return count(array_keys($productos));
 }
 
 /**
@@ -243,7 +252,17 @@ function contarCategorias(array $productos): int {
  * @return string Nombre del empleado
  */
 function obtenerEmpleadoMejorPagado(array $empleados, string $departamento): string {
-    // TODO: Implementar
+    
+    $better = null;
+    foreach ($empleados[$departamento] as $empleado){
+        if ($better == null){
+            $better = $empleado;
+        }elseif ($better['salario'] <= $empleado['salario']){
+            $better = $empleado;
+        }
+    }
+
+    return $better['nombre'];
 }
 
 /**
@@ -255,7 +274,13 @@ function obtenerEmpleadoMejorPagado(array $empleados, string $departamento): str
  * @return int Cantidad de productos no comprados
  */
 function contarProductosSinVender(array $productos, array $clientes): int {
-    // TODO: Implementar
+    $idsComprados = [];
+    $idsProductos = array_merge(...array_values(array_map('array_keys', $productos)));
+    foreach ($clientes as $cliente){
+        $idsComprados[] = array_merge($idsComprados, $cliente['compras']);
+    }
+    $idsComprados = array_unique($idsComprados);
+    return count(array_diff($idsProductos, $idsComprados));
 }
 
 /**
