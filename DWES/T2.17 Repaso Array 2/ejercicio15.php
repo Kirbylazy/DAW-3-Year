@@ -30,8 +30,10 @@ include_once ('datos.php');
     <form method="POST">
         <label for="categoria">Categoria:</label>
         <select name="categoria" id="categoria" required>
-            <option value="">-- Selecciona una categoria --</option>
-            <!-- TODO: Generar opciones dinamicamente con obtenerCategorias() -->
+            <?php $ids = obtenerCategorias($productos);
+                    foreach ($ids as $id):?>
+            <option value="<?= $id ?>"><?= $id ?></option>
+            <?php endforeach ?>
         </select>
         <br><br>
         <label for="cantidad">Cantidad:</label>
@@ -39,9 +41,28 @@ include_once ('datos.php');
         <br><br>
         <button type="submit" name="submit">Ejecutar</button>
     </form>
+    <?php 
+        if ($_SERVER["REQUEST_METHOD"] == "POST"):
 
-    <!-- TODO: Mostrar resultado cuando se envie el formulario -->
-    <!-- Debe mostrar tabla con los N productos mas baratos (solo precios) -->
-    <!-- Debe mostrar tabla completa con todos los productos ordenados por precio -->
+                if (isset($_POST["submit"])):
+                $categoria = $_POST['categoria'];
+                $cantidad = $_POST['cantidad'];
+                $elegidos = obtenerProductosMasBaratos($productos, $categoria, $cantidad)?>
+                <table border="1" cellpadding="5"><br><br>
+                    <tr>
+                        <th>Nombre</th><th>Precio</th>
+                    </tr>
+                    <?php  
+                    foreach ($elegidos as $elegido){ ?>
+
+                    <tr>
+                        <td><?= $elegido['nombre']?></td>
+                        <td><?= $elegido['precio']?>€</td>
+                    </tr>
+
+                    <?php } ?>
+        </table>
+    <?php endif ?> 
+    <?php endif ?> 
 </body>
 </html>

@@ -32,7 +32,7 @@ include_once ('datos.php');
 
                 if (isset($_POST["submit"])):
                 
-                echo 'El numero de productos sin vender es: <strong>' . contarProductosSinVender($productos, $clientes) . '<strong>';?>
+                echo 'El numero de productos sin vender es: <strong>' . contarProductosSinVender($productos, $clientes) . '</strong>';?>
                 
     <?php endif ?> 
     <?php endif ?>

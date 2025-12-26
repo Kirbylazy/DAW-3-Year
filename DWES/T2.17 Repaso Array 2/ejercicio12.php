@@ -32,7 +32,7 @@ include_once ('datos.php');
 
                 if (isset($_POST["submit"])):
                 
-                echo 'El numero de categorias es: <strong>' . contarCategorias($productos) . '<strong>';?>
+                echo 'El numero de categorias es: <strong>' . contarCategorias($productos) . '</strong>';?>
                 
     <?php endif ?> 
     <?php endif ?>

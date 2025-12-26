@@ -293,7 +293,11 @@ function contarProductosSinVender(array $productos, array $clientes): int {
  * @return array Array con los N precios más bajos
  */
 function obtenerProductosMasBaratos(array $productos, string $categoria, int $cantidad): array {
-    // TODO: Implementar
+    
+    $ordenados = $productos[$categoria];
+    uasort($ordenados, fn($a, $b) => $a['precio'] <=> $b['precio']);
+
+    return array_slice($ordenados,0,$cantidad,true);
 }
 
 // ============================================
