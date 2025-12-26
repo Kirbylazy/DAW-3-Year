@@ -28,7 +28,6 @@ include_once ('datos.php');
     </form>
     <br><br>
     <?php 
-    // No se si es exactamente esto lo que pedias
         if ($_SERVER["REQUEST_METHOD"] == "POST"):
 
                 if (isset($_POST["submit"])):

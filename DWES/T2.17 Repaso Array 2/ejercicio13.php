@@ -27,12 +27,36 @@ include_once ('datos.php');
     <form method="POST">
         <label for="departamento">Departamento:</label>
         <select name="departamento" id="departamento" required>
-            <option value="">-- Selecciona un departamento --</option>
-            <!-- TODO: Generar opciones dinamicamente con obtenerDepartamentos() -->
+            <?php $ids = obtenerDepartamentos($empleados);
+                    foreach ($ids as $id):?>
+            <option value="<?= $id ?>"><?= $id ?></option>
+            <?php endforeach ?>
         </select>
         <button type="submit" name="submit">Ejecutar</button>
     </form>
+    <br><br>
+    <?php 
+        if ($_SERVER["REQUEST_METHOD"] == "POST"):
 
+                if (isset($_POST["submit"])):
+                $departamento = $_POST['departamento'];
+                echo 'El empleado/a con mayor salario es: <strong>' . obtenerEmpleadoMejorPagado($empleados, $departamento) . '</strong>';?>
+                <table border="1" cellpadding="5"><br><br>
+                    <tr>
+                        <th>Nombre</th><th>Salario</th>
+                    </tr>
+                    <?php  
+                    foreach ($empleados[$departamento] as $empleado){ ?>
+
+                    <tr>
+                        <td><?= $empleado['nombre']?></td>
+                        <td><?= $empleado['salario']?>€</td>
+                    </tr>
+
+                    <?php } ?>
+        </table>
+    <?php endif ?> 
+    <?php endif ?> 
     <!-- TODO: Mostrar resultado cuando se envie el formulario -->
     <!-- Debe mostrar el nombre del empleado mejor pagado -->
     <!-- Debe mostrar tabla con todos los empleados del departamento -->

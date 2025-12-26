@@ -26,9 +26,15 @@ include_once ('datos.php');
     <form method="POST">
         <button type="submit" name="submit">Ejecutar</button>
     </form>
+    <br><br>
+    <?php 
+        if ($_SERVER["REQUEST_METHOD"] == "POST"):
 
-    <!-- TODO: Mostrar resultado cuando se envie el formulario -->
-    <!-- Debe mostrar el numero total de categorias -->
-    <!-- Debe mostrar tabla con categorias y cantidad de productos en cada una -->
+                if (isset($_POST["submit"])):
+                
+                echo 'El numero de categorias es: <strong>' . contarCategorias($productos) . '<strong>';?>
+                
+    <?php endif ?> 
+    <?php endif ?>
 </body>
 </html>

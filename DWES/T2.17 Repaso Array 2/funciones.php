@@ -277,7 +277,7 @@ function contarProductosSinVender(array $productos, array $clientes): int {
     $idsComprados = [];
     $idsProductos = array_merge(...array_values(array_map('array_keys', $productos)));
     foreach ($clientes as $cliente){
-        $idsComprados[] = array_merge($idsComprados, $cliente['compras']);
+        $idsComprados = array_merge($idsComprados, $cliente['compras']);
     }
     $idsComprados = array_unique($idsComprados);
     return count(array_diff($idsProductos, $idsComprados));

@@ -26,9 +26,15 @@ include_once ('datos.php');
     <form method="POST">
         <button type="submit" name="submit">Ejecutar</button>
     </form>
+    <br><br>
+    <?php 
+        if ($_SERVER["REQUEST_METHOD"] == "POST"):
 
-    <!-- TODO: Mostrar resultado cuando se envie el formulario -->
-    <!-- Debe mostrar cantidad de productos sin vender -->
-    <!-- Debe mostrar tabla con los productos que no han sido comprados -->
+                if (isset($_POST["submit"])):
+                
+                echo 'El numero de productos sin vender es: <strong>' . contarProductosSinVender($productos, $clientes) . '<strong>';?>
+                
+    <?php endif ?> 
+    <?php endif ?>
 </body>
 </html>
