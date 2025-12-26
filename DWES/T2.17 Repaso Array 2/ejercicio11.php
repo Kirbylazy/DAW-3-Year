@@ -26,9 +26,16 @@ include_once ('datos.php');
     <form method="POST">
         <button type="submit" name="submit">Ejecutar</button>
     </form>
+    <br><br>
+    <?php 
+    // No se si es exactamente esto lo que pedias
+        if ($_SERVER["REQUEST_METHOD"] == "POST"):
 
-    <!-- TODO: Mostrar resultado cuando se envie el formulario -->
-    <!-- Debe mostrar tabla con productos unicos de todos los proveedores -->
-    <!-- Debe mostrar el total de productos unicos -->
+                if (isset($_POST["submit"])):
+                
+                echo implode(', ', obtenerProductosUnicos($proveedores));?>
+                
+    <?php endif ?> 
+    <?php endif ?> 
 </body>
 </html>

@@ -225,7 +225,7 @@ function obtenerProductosUnicos(array $proveedores): array {
     
     foreach ($proveedores as $proveedor){
 
-        $productosU[] = array_merge($productosU, $proveedor['productos']);
+        $productosU = array_merge($productosU, $proveedor['productos']);
     }
 
     return array_values(array_unique($productosU));
