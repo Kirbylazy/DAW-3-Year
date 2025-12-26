@@ -312,7 +312,19 @@ function obtenerProductosMasBaratos(array $productos, string $categoria, int $ca
  * @return array Array asociativo [id_producto => cantidad_compras] ordenado
  */
 function obtenerRankingProductos(array $clientes): array {
-    // TODO: Implementar
+
+    $pedidos = [];
+    
+    foreach ($clientes as $cliente){
+
+        $pedidos = array_merge($pedidos, $cliente['compras']);
+
+    }
+
+    $pedidos = array_count_values($pedidos);
+    arsort($pedidos);
+
+    return $pedidos;
 }
 
 /**
