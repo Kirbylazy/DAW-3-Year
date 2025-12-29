@@ -42,7 +42,7 @@ include_once ('datos.php');
 
                     <tr>
                         <td><?= $i ?></td>
-                        <td><?= $producto ?></td>
+                        <td><?= $producto ?> ud.</td>
                     </tr>
 
                     <?php } ?>

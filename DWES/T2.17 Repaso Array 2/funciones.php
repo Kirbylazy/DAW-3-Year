@@ -336,9 +336,16 @@ function obtenerRankingProductos(array $clientes): array {
  * @param string $idCliente2 ID del segundo cliente
  * @return int Cantidad de idiomas adicionales que habla cliente1 respecto a cliente2
  */
-function contarIdiomasAdicionales(array $clientes, string $idCliente1, string $idCliente2): int {
-    // TODO: Implementar
+function contarIdiomasAdicionales(array $clientes, string $idCliente1, string $idCliente2):int{
+    
+    $cliente1 = count($clientes[$idCliente1]['idiomas']);
+    $cliente2 = count($clientes[$idCliente2]['idiomas']);
+    $resultado = $cliente1 - $cliente2;
+
+    return $resultado;
+
 }
+
 
 /**
  * Ejercicio 18: Crear un array con los IDs de clientes que han comprado un producto específico
