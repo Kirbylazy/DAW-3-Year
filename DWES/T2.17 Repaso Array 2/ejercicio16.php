@@ -49,4 +49,5 @@ include_once ('datos.php');
         </table>
     <?php endif ?> 
     <?php endif ?> 
+</body>
 </html>

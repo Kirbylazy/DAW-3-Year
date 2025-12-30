@@ -356,7 +356,18 @@ function contarIdiomasAdicionales(array $clientes, string $idCliente1, string $i
  * @return array Array con IDs de clientes
  */
 function obtenerClientesPorProducto(array $clientes, string $idProducto): array {
-    // TODO: Implementar
+    
+    $resultado = [];
+
+    foreach($clientes as $cliente => $datos){
+
+        if(in_array($idProducto,$datos['compras'])){
+
+            $resultado[] = [$cliente,$datos['datos']['nombre']];
+        }
+    }
+
+    return $resultado;
 }
 
 /**
@@ -369,7 +380,24 @@ function obtenerClientesPorProducto(array $clientes, string $idProducto): array 
  * @return array IDs de productos exclusivos del tipo1
  */
 function obtenerProductosExclusivos(array $proveedores, string $tipo1, string $tipo2): array {
-    // TODO: Implementar
+    
+    $array1 = [];
+    $array2 = [];
+
+    foreach ($proveedores as $proveedor){
+
+        if ($proveedor['datos']['tipo'] == $tipo1){
+
+            $array1 = array_merge($array1, $proveedor['productos']);
+
+        }elseif ($proveedor['datos']['tipo'] == $tipo2)
+
+            $array2 = array_merge($array2, $proveedor['productos']);
+    }
+
+    $resultado = array_diff(array_unique($array1),array_unique($array2));
+
+    return $resultado;
 }
 
 /**
@@ -380,7 +408,23 @@ function obtenerProductosExclusivos(array $proveedores, string $tipo1, string $t
  * @return array Array con estadísticas por departamento
  */
 function calcularEstadisticasSalariales(array $empleados): array {
-    // TODO: Implementar
+    
+    $resultado = [];
+
+    foreach ($empleados as $departamento => $datos){
+
+        $buffer = [];
+        
+        foreach ($datos as $empleado){
+            $buffer[] = $empleado['salario'];
+        }
+
+        $resultado [$departamento] = ['max' => max($buffer),
+                                      'min' => min($buffer),
+                                      'num' => count($buffer),];
+    }
+
+    return $resultado;
 }
 
 ?>

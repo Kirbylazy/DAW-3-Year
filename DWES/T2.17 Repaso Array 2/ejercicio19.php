@@ -1,3 +1,22 @@
+<!-- ### Ejercicio 19: Productos exclusivos por tipo proveedor
+**Funciones PHP:** `array_diff` + `array_unique`
+**Función a implementar:** `obtenerProductosExclusivos(array $proveedores, string $tipo1, string $tipo2): array`
+
+**Frontend:**
+- Formulario con:
+  - Select para tipo de proveedor 1 (nacional/internacional)
+  - Select para tipo de proveedor 2 (nacional/internacional)
+- Botón "Ejecutar"
+
+**Resultado a mostrar:**
+- Tabla con productos exclusivos del tipo1
+- Productos que suministran proveedores tipo1 pero NO tipo2 -->
+
+<?php
+include_once ('funciones.php'); 
+include_once ('datos.php');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,9 +43,40 @@
         <br><br>
         <button type="submit" name="submit">Ejecutar</button>
     </form>
+    <br><br>
+    <?php 
+        if ($_SERVER["REQUEST_METHOD"] == "POST"):
 
-    <!-- TODO: Mostrar resultado cuando se envie el formulario -->
-    <!-- Debe mostrar tabla con productos exclusivos del tipo1 -->
-    <!-- Productos que suministran proveedores tipo1 pero NO tipo2 -->
+                if (isset($_POST["submit"])):
+                $tipo1 = $_POST['tipo1'];
+                $tipo2 = $_POST['tipo2'];
+                $lista = [];?>
+                <a>Lista de produtos de tipo <?= $tipo1 ?>:</a>
+                <table border="1" cellpadding="5"><br><br>
+                    <tr>
+                        <th>Id</th>
+                    </tr>
+                    <?php  
+                    foreach ($proveedores as $proveedor){ 
+                        
+                        $lista = array_merge($lista,$proveedor['productos']);
+                    }
+                    
+                    foreach($lista as $producto){?>
+
+                    <tr>
+                        <td><?= $producto ?></td>
+                    </tr>
+
+                    <?php } //He tenido que implementar esta función aqui por que no existe en la lista de funciones ?>
+
+                    </table>
+                    <br><br>
+                    
+                    <?php $ranking = obtenerProductosExclusivos($proveedores, $tipo1, $tipo2);
+
+                    echo implode(', ', $ranking); ?>
+    <?php endif ?> 
+    <?php endif ?> 
 </body>
 </html>
