@@ -7,7 +7,7 @@ if(!isset($_COOKIE['registro']))
     exit();
 }
 
-setcookie("registro", time(), time() + 5);
+setcookie("registro", time(), time() + 30);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['registrar'])) {
     $nombre = $_POST['nombre'];
