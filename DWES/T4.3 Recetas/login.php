@@ -1,4 +1,23 @@
+<?php
+require_once('funciones.php');
+session_start();
 
+if (isset($_POST['volver'])) {
+    header("Location: index.php");
+    exit();
+}
+
+if (isset($_POST['iniciar'])) {
+    login($_POST['email'], $_POST['clave']);
+    exit();
+}
+
+if ($_SESSION['nombre'] != null){
+    header('Location: principal.php');
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html>
 
