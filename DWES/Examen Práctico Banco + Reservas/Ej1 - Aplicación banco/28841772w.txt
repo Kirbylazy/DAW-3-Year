@@ -1,0 +1,1 @@
+a:2:{i:0;O:5:"Gasto":4:{s:5:"fecha";s:10:"2026-01-20";s:8:"concepto";s:5:"gasto";s:8:"cantidad";i:300;s:6:"origen";s:4:"pepe";}i:1;O:7:"Ingreso":4:{s:5:"fecha";s:10:"2026-01-20";s:8:"concepto";s:7:"salario";s:8:"cantidad";i:1500;s:12:"destinatario";s:6:"nomina";}}
