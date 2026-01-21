@@ -1,27 +1,58 @@
 <?php
+include_once('funciones.php');
+session_start();
 
 // Verificar que el usuario esté autenticado o se vuelva a index
 
+if(!isset($_SESSION['id'])){
+
+    header('Location: index.php');
+    exit;
+
+}
 
 // Procesamiento de acciones POST (puedes programarlo aquí o llamar a las funciones)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
     // Cerrar sesión
+    if(isset($_POST['logout'])){
 
+        $_SESSION =  [];
+        session_destroy();
+        header('Location: index.php');
+        exit;
+
+    }
 
     // Crear nueva reserva
-   // crearReserva();
+    if(isset($_POST['crear_reserva'])){
+
+    crearReserva($_SESSION['id'], $_POST['aula_id'], $_POST['fecha'], 
+                    $_POST['motivo']);
+    }
 
     // Eliminar reserva
-    //eliminarReserva();
+    if(isset($_POST['eliminar'])){
+
+        $reserva_id = (int)$_POST['eliminar'];
+        eliminarReserva($reserva_id, $_SESSION['id']);
+
+    }
 
     // Cambiar estado de reserva
-    //cambiarEstadoReserva();
+    if (isset($_POST['cambiar_estado'])) {
+
+        $reserva_id = (int)$_POST['cambiar_estado'];
+        cambiarEstadoReserva($reserva_id, $_SESSION['id']);
+
+    }
 }
 
+
 // Obtener aulas para el select list, funcion obteneraulas
-$aulas = "";
+$aulas = obtenerAulas();
 // Obtener reservas, para mostrar en la tabla, funcion obtenerReservas
-$reservas = "";
+$reservas = obtenerReservas($_SESSION['id']);
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +71,7 @@ $reservas = "";
         </tr>
         <tr>
             <td colspan="2">
-                Bienvenido, <?php echo "AQUI DEBE SALIR EL NOMBRE" ?>
+                Bienvenido, <?= $_SESSION['nombre'] ?>
                 <form method="post" action="">
                     <input type="submit" name="logout" value="Cerrar sesión">
                 </form>
@@ -63,17 +94,18 @@ $reservas = "";
                     <select id="aula_id" name="aula_id" required>
                         <option value="">Seleccione un aula</option>
                         <!-- AÑADIR UNA OPCION POR CADA AULA LIBRE-->
-
-
-
-
+                         <?php foreach ($aulas as $aula): ?>
+                        <option value="<?= (int)$aula['id'] ?>">
+                            <?= $aula['nombre'] ?>
+                        </option>
+                    <?php endforeach; ?>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td><label for="fecha">Fecha:</label></td>
                 <td>
-                    <input type="date" id="fecha" name="fecha" value="<?php echo date('d-m-Y'); ?>">
+                    <input type="date" id="fecha" name="fecha" value="<?php echo date('Y-m-d'); ?>">
                 </td>
             </tr>
             <tr>
@@ -95,7 +127,7 @@ $reservas = "";
         <tr>
             <th colspan="5">Mis Reservas</th>
         </tr>
-        <?php if(TRUE):// COMPROBAR SI HAY RESERVAS ?>
+        <?php if (empty($reservas)): ?>
             <tr>
                 <td>No tienes reservas actualmente.</td>
             </tr>
@@ -107,24 +139,24 @@ $reservas = "";
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
-            <?php // RECORRE LAS RESERVAS ?>
+            <?php foreach ($reservas as $r): ?>
                 <tr>
-                    <td><?php //IMPRIME NOMBRE DE SALA ?></td>
-                    <td><?php //IMPRIME FECHA DE SALA ?></td>
-                    <td><?php //IMPRIME MOTIVO DE SALA ?></td>
-                    <td><?php //IMPRIMIR SI ESTÁ RESERVADA O TERMINADA?></td>
+                    <td><?= $r['aula_nombre'] ?></td>
+                    <td><?= $r['fecha'] ?></td>
+                    <td><?= $r['motivo'] ?></td>
+                    <td><?= ($r['reservada'] === 1) ? 'Reservada' : 'Terminada' ?></td>
                     <td>
                         <!-- SI ESTÁ RESERVADA MUESTRA LOS BOTONES. -->
-                        <?php if (// ESTA RESERVADA): ?>
+                        <?php if ($r['reservada'] === 1): ?>
                             <form method="post" action="">
-                            <button type="submit" name="cambiar_estado" value="<?php //AQUÍ ENVIAIS LA ID?>">Terminar</button>
-                            <button type="submit" name="eliminar" value="<?php //AQUÍ ENVIAIS LA ID?>" >Eliminar</button>
+                            <button type="submit" name="cambiar_estado" value="<?= $r['id'] ?>">Terminar</button>
+                            <button type="submit" name="eliminar" value="<?= $r['id']?>" >Eliminar</button>
                             </form>
                         <?php endif; ?>
                     </td>
                 </tr>
-            <?php // HASTA AQUÍ LA TABLA DE RESERVAS ?>
-        <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif ?>
     </table>
 </body>
 

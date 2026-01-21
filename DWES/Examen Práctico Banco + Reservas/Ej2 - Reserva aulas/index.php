@@ -1,12 +1,36 @@
 <?php
-
+include_once('funciones.php');
+session_start();
 
 
     // Procesar inicio de sesión, si hace bien login va a principal, si falla se queda en index.
         //Puedes hacerlo aquí o llamar a la función 
-        iniciarSesion($email, $password)
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    if(isset($_POST['login'])){
+
+        if(iniciarSesion($_POST['email'], $_POST['password'])){
+
+            $email = $_POST['email'];
+            $pdo = conectarBD();
+            $stmt = $pdo->prepare("SELECT * FROM profesores WHERE email = :email");
+            $stmt->execute(['email' => $email]);
+            $profesor = $stmt->fetch(PDO::FETCH_ASSOC);
+            $_SESSION['nombre'] = $profesor['nombre'];
+            $_SESSION['id'] = $profesor['id'];
+
+            header('Location: principal.php');
+            exit;
+        }
+    }
 
     // PROCESAR BOTÓN REGISTRO, VA A REGISTRO
+    if(isset($_POST['registro'])){
+
+        header('Location: registro.php');
+        exit();
+    }
+}
 
 ?>
 

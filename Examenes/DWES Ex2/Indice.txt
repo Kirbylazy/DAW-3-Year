@@ -1,0 +1,47 @@
+1) Base de datos (PDO) – Utilidades
+
+bdconectar → conectarBD() + include_once('parametros.php') (PDO + try/catch)
+
+bddesconectar → desconectar(&$conex) (cierra PDO con null)
+
+2) Base de datos – Autenticación Profesores
+
+bdregistrar → registrarProfesor($nombre,$email,$password): bool (check email + password_hash + INSERT)
+
+bdlogin → iniciarSesion($email,$password): bool (SELECT + password_verify)
+
+3) Base de datos – Reservas (CRUD + lógica)
+
+bddisponibilidad → comprobarDisponibilidad($aula_id): bool (aula libre/ocupada)
+
+bdcrearreserva → crearReserva($profesor_id,$aula_id,$fecha,$motivo): bool (INSERT si disponible)
+
+bdeliminar → eliminarReserva($reserva_id,$profesor_id): bool (DELETE + rowCount)
+
+bdobtenerreservas → obtenerReservas($profesor_id) (JOIN con aulas + ORDER BY fecha DESC)
+
+bdupdate → cambiarEstadoReserva($reserva_id,$profesor_id) (UPDATE reservada 1 → 0)
+
+4) Base de datos – Páginas completas
+
+bdindex → index.php (login + sesión + redirección a principal/registro)
+
+bdregistro → registro.php (alta profesor + validación password confirm + volver)
+
+bdprincipal → principal.php (página protegida por sesión + crear/eliminar/terminar + listados)
+
+5) Cookies/Ficheros – Clases y persistencia
+
+cookiesclases → Clases Movimiento, Gasto, Ingreso
+
+cookiesleer → leerMovimientos($dni) (leer fichero dni.txt + unserialize)
+
+cookiesguardar → guardarMovimientos($dni,$movimientos) (guardar con serialize)
+
+cookieanadir → anadirMovimiento($dni,$movimiento) (leer → añadir → guardar)
+
+6) Cookies/Ficheros – Páginas completas
+
+cookieindex → index.php (login por DNI + cookie 30s + redirección)
+
+cookieprincipal → principal.php (protección por cookie + renovación + fichero por usuario + alta movimientos + saldo + listado)

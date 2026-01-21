@@ -1,12 +1,34 @@
 <?php 
+include_once('funciones.php');
+session_start();
 // COMPORTAMIENTO DE BOTONES
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
 // BOTÓN DE REGISTRO
+    if(isset($_POST['registrar'])){
 
         // VALIDACIÓN BÁSICA DE CAMPOS RELLENOS Y CLAVE = CLAVECONFIRMACION
+        if ($_POST['password'] === $_POST['password_confirm']){
 
+            $nombre = $_POST['nombre'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            registrarProfesor($nombre, $email, $password);
+            
         // SI SE REGISTRA, VA A INDEX. EN CASO DE ERROR, MENSAJE Y SE QUEDA EN REGISTRO.
+            header('Location: index.php');
+            exit;
+        }
+    }
 
 // BOTÓN DE VOLVER A PAGINA PRINCIPAL
+    if (isset($_POST['volver'])){
+
+        header('Location: index.php');
+        exit;
+    }
+}
 ?>
 
 <!DOCTYPE html>
