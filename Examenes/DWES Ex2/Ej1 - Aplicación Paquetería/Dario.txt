@@ -1,0 +1,1 @@
+a:1:{i:0;O:14:"PaqueteUrgente":5:{s:2:"id";s:17:"PKG_69778f5129983";s:4:"peso";s:2:"20";s:7:"destino";s:8:"zaragoza";s:11:"fecha_envio";s:10:"2026-01-30";s:18:"tiempo_garantizado";s:23:"Necesito que sea en 24h";}}
