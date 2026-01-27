@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Ejercicio 2 - Calculadora de gastos de viaje</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootswatch Vapor (Bootstrap 5) -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/vapor/bootstrap.min.css"
+  >
+
+  <!-- Tu JavaScript -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <header class="py-4 border-bottom">
+    <div class="container text-center">
+      <h1 class="h3 mb-1">Ejercicio 2 — Calculadora de gastos</h1>
+      <p class="text-body-secondary mb-0">
+        Dario Aguilar Rodriguez
+    </div>
+  </header>
+
+  <main class="container py-5">
+
+    <!-- FILA CENTRADA -->
+    <div class="row justify-content-center">
+
+      <!-- COLUMNA DE TAMAÑO MEDIO -->
+      <div class="col-12 col-md-8 col-lg-6">
+
+        <section class="card shadow-sm border border-success border-2">
+          <div class="card-body">
+
+            <h2 class="h5 mb-3 text-center">
+              Calculadora de gastos de viaje
+            </h2>
+
+            <p class="text-body-secondary text-center">
+              Introduce los gastos estimados del viaje.
+              El sistema calculará el coste total.
+            </p>
+
+            <!-- ALOJAMIENTO -->
+            <div class="mb-3">
+              <label for="alojamiento" class="form-label">
+                Gastos de alojamiento (€)
+              </label>
+              <input
+                type="number"
+                id="alojamiento"
+                class="form-control"
+                min="0"
+              >
+            </div>
+
+            <!-- ALIMENTACIÓN -->
+            <div class="mb-3">
+              <label for="alimentacion" class="form-label">
+                Gastos de alimentación (€)
+              </label>
+              <input
+                type="number"
+                id="alimentacion"
+                class="form-control"
+                min="0"
+              >
+            </div>
+
+            <!-- ENTRETENIMIENTO -->
+            <div class="mb-3">
+              <label for="entretenimiento" class="form-label">
+                Gastos de entretenimiento (€)
+              </label>
+              <input
+                type="number"
+                id="entretenimiento"
+                class="form-control"
+                min="0"
+              >
+            </div>
+
+            <!-- MENSAJE -->
+            <div class="alert d-none msg-evento"></div>
+
+            <!-- BOTÓN -->
+            <div class="d-grid">
+              <button id="btnCalcular" class="btn btn-primary">
+                Calcular coste total
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="py-4 border-top">
+    <div class="container text-center text-body-secondary small">
+      DAW - Plantilla base con Vapor
+    </div>
+  </footer>
+
+</body>
+</html>

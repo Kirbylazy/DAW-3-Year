@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ejercicio 1 - Atributos del ratón</title>
+
+  <!-- Bootswatch Vapor (Bootstrap 5) -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/vapor/bootstrap.min.css"
+  />
+</head>
+
+<body>
+  <header class="py-4 border-bottom">
+    <div class="container">
+      <h1 class="h3 mb-1">Ejercicio 1 — Eventos del ratón</h1>
+      <p class="text-body-secondary mb-0">
+        Dario Aguilar Rodriguez
+      </p>
+    </div>
+  </header>
+
+    <main class="container py-4">
+
+        <section class="mb-4">
+            <h2 class="h5">click</h2>
+            <p class="text-body-secondary">
+            Se produce cuando el usuario pulsa y suelta el botón principal del ratón
+            sobre un elemento.
+            </p>
+            <div class="alert d-none msg-evento"></div>
+            <button id="btnClick" class="btn btn-primary">Haz click</button>
+        </section>
+
+        <hr>
+
+        <section class="mb-4">
+            <h2 class="h5">dblclick</h2>
+            <p class="text-body-secondary">
+            Se ejecuta cuando el usuario realiza dos clics seguidos sobre el mismo
+            elemento.
+            </p>
+            <div class="alert d-none msg-evento"></div>
+            <button id="btnDblClick" class="btn btn-info">Doble click</button>
+        </section>
+
+        <hr>
+
+        <section class="mb-4">
+            <h2 class="h5">mousedown</h2>
+            <p class="text-body-secondary">
+            Se activa en el momento en el que el usuario presiona un botón del ratón.
+            </p>
+            <div class="alert d-none msg-evento"></div>
+            <button id="btnMouseDown" class="btn btn-warning">Mouse down</button>
+        </section>
+
+        <hr>
+
+        <section class="mb-4">
+            <h2 class="h5">mouseup</h2>
+            <p class="text-body-secondary">
+            Ocurre cuando el usuario suelta el botón del ratón.
+            </p>
+            <div class="alert d-none msg-evento"></div>
+            <button id="btnMouseUp" class="btn btn-success">Mouse up</button>
+        </section>
+
+        <hr>
+
+        <section class="mb-4">
+            <h2 class="h5">mouseenter</h2>
+            <p class="text-body-secondary">
+            Se lanza cuando el puntero del ratón entra en el área del elemento.
+            </p>
+            <div class="alert d-none msg-evento"></div>
+            <button id="btnMouseEnter" class="btn btn-secondary">Mouse enter</button>
+        </section>
+
+        <hr>
+
+        <section class="mb-4">
+            <h2 class="h5">mouseleave</h2>
+            <p class="text-body-secondary">
+            Se produce cuando el puntero del ratón sale del área del elemento.
+            </p>
+            <div class="alert d-none msg-evento"></div>
+            <button id="btnMouseLeave" class="btn btn-danger">Mouse leave</button>
+        </section>
+
+    </main>
+
+
+  <footer class="py-4 border-top">
+    <div class="container text-body-secondary small">
+      DIW - Plantilla base con Vapor
+    </div>
+  </footer>
+
+  <!-- Tu JavaScript (siempre al final del body) -->
+  <script src="script.js"></script>
+</body>
+</html>
