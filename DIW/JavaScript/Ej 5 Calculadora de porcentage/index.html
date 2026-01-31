@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora de descuento</title>
+
+  <!-- Bootswatch Cerulean (Bootstrap 5) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cerulean/bootstrap.min.css">
+
+  <style>
+    /* Rectángulo centrado, más alto que ancho */
+    .calc-card{
+      width: min(420px, 92vw);
+      min-height: 520px; /* más alto que ancho */
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+  <main class="min-vh-100 d-flex align-items-center justify-content-center p-3">
+    <section class="card shadow calc-card">
+      <div class="card-body p-4 d-flex flex-column">
+        <h1 class="h4 mb-3 text-center">Calculadora de descuento</h1>
+        <p class="text-muted text-center mb-4">
+          Introduce un importe y un porcentaje para calcular el precio final.
+        </p>
+
+        <form id="form" class="d-grid gap-3">
+          <div>
+            <label for="importe" class="form-label">Importe (€)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="importe"
+              placeholder="Ej: 100"
+              min="0"
+              step="0.01"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="porcentaje" class="form-label">Descuento (%)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="porcentaje"
+              placeholder="Ej: 15"
+              min="0"
+              step="0.01"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg mt-2">
+            Obtener resultado
+          </button>
+        </form>
+
+        <hr class="my-4">
+
+        <div id="salida" class="mt-1">
+          <div class="alert alert-info mb-0">
+            Rellena los campos y pulsa el botón.
+          </div>
+        </div>
+
+        <!-- Empuja el contenido hacia arriba y deja aire abajo -->
+        <div class="flex-grow-1"></div>
+
+        <small class="text-muted text-center d-block">
+          Fórmula: final = importe × (1 − descuento/100)
+        </small>
+      </div>
+    </section>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="script.js" defer></script>
+
+</body>
+</html>

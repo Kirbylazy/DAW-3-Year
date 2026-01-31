@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Calcule su IMC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS externo -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="hero">
+
+    <header class="hero__top">
+      <h1>CALCULE SU IMC</h1>
+    </header>
+
+    <section class="hero__body">
+      <p class="subtitle">
+        Ingrese los datos indicados abajo para conocer su índice de masa corporal.
+      </p>
+
+      <div class="grid">
+
+        <!-- ALTURA -->
+        <div class="panel">
+          <span class="label">ALTURA</span>
+          <input id="altura" class="input" type="number" min="50" max="260">
+          <div class="unit">CENTÍMETROS</div>
+        </div>
+
+        <!-- BÁSCULA -->
+        <div class="scale-wrap">
+          <div class="scale">
+            <div class="dial">
+              <div class="ticks"></div>
+              <div class="needle" id="needle"></div>
+            </div>
+
+            <div class="mat"></div>
+
+            <button class="cta" id="btnCalcular">CALCULAR</button>
+          </div>
+        </div>
+
+        <!-- PESO -->
+        <div class="panel">
+          <span class="label">PESO</span>
+          <input id="peso" class="input" type="number" min="10" max="300" step="0.1">
+          <div class="unit">KILOGRAMOS</div>
+        </div>
+
+      </div>
+
+      <div class="result" id="resultado"></div>
+    </section>
+  </main>
+
+  <!-- JS externo -->
+  <script src="script.js"></script>
+</body>
+</html>
+

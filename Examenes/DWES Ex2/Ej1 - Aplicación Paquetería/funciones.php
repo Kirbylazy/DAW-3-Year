@@ -43,7 +43,7 @@ function calcularCosteTotal(array $paquetes): float
     $total = 0.0;
 
     foreach ($paquetes as $p) {
-        $total += (float)$p->calcularCoste();
+        $total += $p->calcularCoste();
     }
 
     return $total;
