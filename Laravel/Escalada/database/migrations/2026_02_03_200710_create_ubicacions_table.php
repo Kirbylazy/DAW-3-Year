@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('competicions', function (Blueprint $table) {
+        Schema::create('ubicacions', function (Blueprint $table) {
             $table->id();
-            $table->foreign('copa_id');
             $table->string('name');
             $table->string('provincia');
-            $table->dateTime('fecha_realizacion');
-            $table->string('tipo');
-            $table->foreign('ubicacion_id');
-            $table->boolean('campeonato');
+            $table->string('direccion');
+            $table->float('alto');
+            $table->float('ancho');
+            $table->integer('n_lineas');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('competicions');
+        Schema::dropIfExists('ubicacions');
     }
 };

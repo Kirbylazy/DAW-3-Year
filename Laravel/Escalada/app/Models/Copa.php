@@ -5,25 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Competicion extends Model
+class Copa extends Model
 {
-    /** @use HasFactory<\Database\Factories\CompeticionFactory> */
+    /** @use HasFactory<\Database\Factories\CopaFactory> */
     use HasFactory;
 
     protected $fillable = [
-        'copa',
         'name',
-        'provincia',
-        'fecha_realizacion',
+        'temporada',
         'tipo',
-        'campeonato',
     ];
 
     protected function casts(): array
     {
         return [
-            'fecha_realizacion' => 'datetime',
-            'campeonato' => 'boolean',
+            'temporada' => 'integer',
         ];
     }
 }

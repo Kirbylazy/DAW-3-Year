@@ -5,25 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Competicion extends Model
+class Ubicacion extends Model
 {
-    /** @use HasFactory<\Database\Factories\CompeticionFactory> */
+    /** @use HasFactory<\Database\Factories\UbicacionFactory> */
     use HasFactory;
 
     protected $fillable = [
-        'copa',
         'name',
         'provincia',
-        'fecha_realizacion',
-        'tipo',
-        'campeonato',
+        'direccion',
+        'alto',
+        'ancho',
+        'n_lineas',
     ];
 
     protected function casts(): array
     {
         return [
-            'fecha_realizacion' => 'datetime',
-            'campeonato' => 'boolean',
+            'n_lineas' => 'integer',
+            'alto' => 'float',
+            'ancho' => 'float',
         ];
     }
 }
