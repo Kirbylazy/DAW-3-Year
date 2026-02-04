@@ -6,25 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('competicions_users', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id');
-            $table->foreign('competicion_id');
+
+            $table->foreignId('user_id')
+                  ->constrained('users')
+                  ->cascadeOnDelete();
+
+            $table->foreignId('competicion_id')
+                  ->constrained('competicions')
+                  ->cascadeOnDelete();
+
             $table->string('rol');
             $table->timestamps();
+
+            // Opcional pero MUY recomendado: evitar duplicados
+            $table->unique(['user_id', 'competicion_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('competicions_users');
     }
 };
