@@ -6,27 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('competicions', function (Blueprint $table) {
             $table->id();
-            $table->foreign('copa_id');
+
+            $table->foreignId('copa_id')
+                  ->constrained('copas')
+                  ->cascadeOnDelete();
+
             $table->string('name');
             $table->string('provincia');
             $table->dateTime('fecha_realizacion');
             $table->string('tipo');
-            $table->foreign('ubicacion_id');
+
+            $table->foreignId('ubicacion_id')
+                  ->constrained('ubicacions')
+                  ->cascadeOnDelete();
+
             $table->boolean('campeonato');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('competicions');
