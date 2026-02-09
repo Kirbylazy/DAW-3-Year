@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Ocultar y mostrar elementos usando JavaScript</title>
+
+  <!-- Bootswatch Vapor (Bootstrap 5) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/vapor/bootstrap.min.css">
+
+  <style>
+    /* Solo para darle un tamaño a la “caja” */
+    #box {
+      width: 140px;
+      height: 140px;
+    }
+  </style>
+</head>
+
+<body class="min-vh-100 d-flex align-items-center">
+  <main class="container">
+    <h1 class="text-center mb-4">Ocultar y mostrar elementos usando JavaScript</h1>
+
+    <div class="card shadow-lg mx-auto" style="max-width: 520px;">
+      <div class="card-body text-center">
+
+        <!-- “Caja” -->
+        <div id="box" class="mx-auto mb-4 bg-primary rounded-3"></div>
+
+        <!-- Botón -->
+        <button id="toggleBtn" class="btn btn-success px-4">
+          Ocultar Caja
+        </button>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

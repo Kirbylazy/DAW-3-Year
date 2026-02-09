@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mostrar frases aleatorias mediante JavaScript</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootswatch Vapor -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/vapor/bootstrap.min.css">
+
+  <style>
+    #fraseBox {
+      min-height: 120px;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+
+<body class="d-flex align-items-center min-vh-100">
+
+  <main class="container text-center">
+    <h1 class="mb-3">Mostrar frases aleatorias mediante JavaScript</h1>
+
+    <p class="mb-4">
+      Esta página te muestra frases creadas por programadores informáticos.
+      Pulsa el botón para ver más contenido.
+    </p>
+
+    <div class="card mx-auto shadow-lg" style="max-width:600px;">
+      <div class="card-body">
+
+        <div id="fraseBox" class="d-flex align-items-center justify-content-center mb-4">
+          Pulsa el botón para mostrar una frase.
+        </div>
+
+        <button id="texto-informatica" class="btn btn-primary">
+          Ver más contenido
+        </button>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
