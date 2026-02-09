@@ -11,33 +11,34 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
     protected static ?string $password;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+        $provincias = ['Sevilla', 'Cádiz', 'Málaga', 'Granada', 'Córdoba', 'Huelva', 'Jaén', 'Almería'];
+        $tallas = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+        $roles = ['deportista']; // ajusta a los roles reales de tu app
+
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'dni' => $this->faker->unique()->bothify('########?'), // ejemplo: 12345678Z
+            'fecha_nacimiento' => $this->faker->dateTimeBetween('-55 years', '-7 years'),
+            'provincia' => $this->faker->randomElement($provincias),
+            'talla' => $this->faker->randomElement($tallas),
+
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
+
             'password' => static::$password ??= Hash::make('password'),
+            'rol' => $this->faker->randomElement($roles),
+
             'remember_token' => Str::random(10),
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn () => [
             'email_verified_at' => null,
         ]);
     }

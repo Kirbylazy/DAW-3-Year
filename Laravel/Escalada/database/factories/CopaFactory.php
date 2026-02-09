@@ -9,15 +9,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CopaFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'name' => 'Copa ' . $this->faker->city(),
+            'tipo' => $this->faker->randomElement([
+                'Bloque',
+                'Cuerda',
+                'Velocidad'
+            ]),
+            'temporada' => $this->faker->numberBetween(2023, 2026),
         ];
     }
 }
+
