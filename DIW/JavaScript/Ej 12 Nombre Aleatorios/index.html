@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Selección Aleatoria de nombres</title>
+
+  <!-- Bootswatch Vapor -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/vapor/bootstrap.min.css">
+
+  <style>
+    .app-card { max-width: 650px; }
+    .name-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .6rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+    .name-item:last-child { border-bottom: 0; }
+    .selected {
+      background: #ffee58; /* amarillo tipo ejemplo del PDF */
+      color: #000;
+      border-radius: .25rem;
+    }
+  </style>
+</head>
+
+<body class="min-vh-100 d-flex align-items-center">
+  <main class="container">
+    <h1 class="text-center mb-3">Selección aleatoria</h1>
+
+    <p class="text-center mb-4">
+      Esta página contiene un formulario en la que puedes insertar nombre de personas o cosas
+      y te devolverá aleatoriamente un nombre.
+    </p>
+
+    <div class="card shadow-lg mx-auto app-card">
+      <div class="card-body">
+
+        <!-- Input + Agregar -->
+        <div class="input-group mb-3">
+          <input id="nameInput" type="text" class="form-control" placeholder="Inserta un nombre" />
+          <button id="addBtn" class="btn btn-success">Agregar</button>
+        </div>
+
+        <!-- Mensaje -->
+        <div id="msg" class="alert alert-secondary text-center mb-3">
+          Añade nombres y luego selecciona uno aleatoriamente.
+        </div>
+
+        <!-- Lista -->
+        <ul id="namesList" class="list-unstyled mb-4"></ul>
+
+        <!-- Seleccionar -->
+        <div class="d-grid">
+          <button id="pickBtn" class="btn btn-primary">
+            Seleccionar aleatoriamente
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

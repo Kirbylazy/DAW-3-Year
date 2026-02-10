@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar tareas a un listado mediante JavaScript</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootswatch Vapor -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/vapor/bootstrap.min.css">
+
+  <style>
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .deleteBtn {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+
+<body class="d-flex align-items-center min-vh-100">
+
+  <main class="container text-center">
+    <h1 class="mb-3">Lista de tareas</h1>
+
+    <p class="mb-4">
+      En esta página podrás añadir nuevas tareas a un listado mediante JavaScript.
+    </p>
+
+    <div class="card mx-auto shadow-lg" style="max-width:600px;">
+      <div class="card-body">
+
+        <div class="input-group mb-4">
+          <input type="text" id="newTask" class="form-control" placeholder="Inserta una nueva tarea">
+          <button id="addTaskBtn" class="btn btn-success">Agregar tarea</button>
+        </div>
+
+        <ul id="taskList" class="list-unstyled"></ul>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
