@@ -12,7 +12,7 @@ class CopaFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Copa ' . $this->faker->city(),
+            'name' => 'Copa de Andalucía',
             'tipo' => $this->faker->randomElement([
                 'Bloque',
                 'Cuerda',

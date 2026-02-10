@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('rol');
             $table->timestamps();
 
-            // Opcional pero MUY recomendado: evitar duplicados
             $table->unique(['user_id', 'competicion_id']);
         });
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ubicacion extends Model
 {
@@ -26,5 +27,10 @@ class Ubicacion extends Model
             'alto' => 'float',
             'ancho' => 'float',
         ];
+    }
+
+    public function competiciones(): HasMany
+    {
+        return $this->hasMany(Competicion::class, 'ubicacion_id');
     }
 }
