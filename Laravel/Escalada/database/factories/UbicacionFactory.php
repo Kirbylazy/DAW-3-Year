@@ -14,15 +14,15 @@ class UbicacionFactory extends Factory
         $provincias = ['Sevilla', 'Cádiz', 'Málaga', 'Granada', 'Córdoba', 'Huelva', 'Jaén', 'Almería'];
 
         return [
-            'name' => 'Rocódromo ' . $this->faker->city(),
-            'provincia' => $this->faker->randomElement($provincias),
-            'direccion' => $this->faker->streetAddress(),
+            'name' => 'Rocódromo ' . fake()->city(),
+            'provincia' => fake()->randomElement($provincias),
+            'direccion' => fake()->streetAddress(),
 
             // Medidas razonables de un muro/instalación (ajusta a tu gusto)
-            'alto' => $this->faker->randomFloat(2, 3.0, 18.0),   // 3.00m - 18.00m
-            'ancho' => $this->faker->randomFloat(2, 4.0, 35.0),  // 4.00m - 35.00m
+            'alto' => fake()->randomFloat(2, 3.0, 18.0),   // 3.00m - 18.00m
+            'ancho' => fake()->randomFloat(2, 4.0, 35.0),  // 4.00m - 35.00m
 
-            'n_lineas' => $this->faker->numberBetween(5, 60),
+            'n_lineas' => fake()->numberBetween(5, 60),
         ];
     }
 }

@@ -12,28 +12,20 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1) Crear 2 copas
-        $copas = Copa::factory()->count(2)->create();
+        $copas = \App\Models\Copa::factory()->count(2)->create();
+        $ubis  = \App\Models\Ubicacion::factory()->count(6)->create();
 
-        // 2) Crear ubicaciones (mínimo 6 para que cada competición pueda tener una distinta)
-        $ubicaciones = Ubicacion::factory()->count(6)->create();
+        \App\Models\Competicion::factory()->count(3)->create([
+        'copa_id' => $copas[0]->id,
+        'ubicacion_id' => $ubis[0]->id,
+        ]);
 
-        // 3) Crear 6 competiciones: 3 para la copa 1 y 3 para la copa 2
-        Competicion::factory()
-            ->count(3)
-            ->create([
-                'copa_id' => $copas[0]->id,
-                'ubicacion_id' => $ubicaciones->random()->id, // o asigna una fija si quieres
-            ]);
+        \App\Models\Competicion::factory()->count(3)->create([
+        'copa_id' => $copas[1]->id,
+        'ubicacion_id' => $ubis[1]->id,
+        ]);
 
-        Competicion::factory()
-            ->count(3)
-            ->create([
-                'copa_id' => $copas[1]->id,
-                'ubicacion_id' => $ubicaciones->random()->id,
-            ]);
+        \App\Models\User::factory()->count(300)->create();
 
-        // 4) Crear 300 usuarios (competidores)
-        User::factory()->count(300)->create();
     }
 }

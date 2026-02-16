@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,8 +14,11 @@ class Competicion extends Model
     /** @use HasFactory<\Database\Factories\CompeticionFactory> */
     use HasFactory;
 
+    protected $table = 'competicions';
+
     protected $fillable = [
-        'copa',
+        'copa_id',
+        'ubicacion_id',
         'name',
         'provincia',
         'fecha_realizacion',

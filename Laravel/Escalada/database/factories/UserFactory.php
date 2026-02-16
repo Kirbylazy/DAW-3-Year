@@ -17,20 +17,19 @@ class UserFactory extends Factory
     {
         $provincias = ['Sevilla', 'Cádiz', 'Málaga', 'Granada', 'Córdoba', 'Huelva', 'Jaén', 'Almería'];
         $tallas = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
-        $roles = ['deportista']; // ajusta a los roles reales de tu app
 
         return [
-            'dni' => $this->faker->unique()->bothify('########?'), // ejemplo: 12345678Z
-            'fecha_nacimiento' => $this->faker->dateTimeBetween('-55 years', '-7 years'),
-            'provincia' => $this->faker->randomElement($provincias),
-            'talla' => $this->faker->randomElement($tallas),
+            'dni' => fake()->unique()->bothify('########?'),
+            'fecha_nacimiento' => fake()->dateTimeBetween('-55 years', '-7 years'),
+            'provincia' => fake()->randomElement($provincias),
+            'talla' => fake()->randomElement($tallas),
 
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
 
             'password' => static::$password ??= Hash::make('password'),
-            'rol' => $this->faker->randomElement($roles),
+            'rol' => 'deportista',
 
             'remember_token' => Str::random(10),
         ];
@@ -40,6 +39,20 @@ class UserFactory extends Factory
     {
         return $this->state(fn () => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function arbitro(): static
+    {
+        return $this->arbitro(fn(array $attributes)=>[
+            'rol' => 'arbitro'
+        ]);
+    }
+
+    public function entrenador(): static
+    {
+        return $this->arbitro(fn(array $attributes)=>[
+            'rol' => 'entrenador'
         ]);
     }
 }

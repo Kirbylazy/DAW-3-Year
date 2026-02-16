@@ -13,12 +13,12 @@ class CopaFactory extends Factory
     {
         return [
             'name' => 'Copa de Andalucía',
-            'tipo' => $this->faker->randomElement([
+            'tipo' => fake()->randomElement([
                 'Bloque',
                 'Cuerda',
                 'Velocidad'
             ]),
-            'temporada' => $this->faker->numberBetween(2023, 2026),
+            'temporada' => fake()->numberBetween(2023, 2026),
         ];
     }
 }

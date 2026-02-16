@@ -14,26 +14,11 @@ class CompeticionFactory extends Factory
     public function definition(): array
     {
         return [
-            'copa_id' => Copa::factory(), 
-            'name' => $this->faker->city() . ' Copa',
-            'provincia' => $this->faker->randomElement([
-                'Huelva',
-                'Sevilla',
-                'Cádiz',
-                'Málaga',
-                'Granada',
-                'Córdoba',
-                'Jaen',
-                'Almería'
-            ]),
-            'fecha_realizacion' => $this->faker->dateTimeBetween('+1 week', '+1 year'),
-            'tipo' => $this->faker->randomElement([
-                'bloque',
-                'cuerda',
-                'velocidad'
-            ]),
-            'ubicacion_id' => Ubicacion::factory(),
-            'campeonato' => $this->faker->boolean(30),
+            'name' => fake()->city() . ' Copa',
+            'provincia' => fake()->randomElement(['Huelva','Sevilla','Cádiz','Málaga','Granada','Córdoba','Jaén','Almería']),
+            'fecha_realizacion' => fake()->dateTimeBetween('+1 week', '+1 year'),
+            'tipo' => fake()->randomElement(['bloque','cuerda','velocidad']),
+            'campeonato' => fake()->boolean(30),
         ];
     }
 }
