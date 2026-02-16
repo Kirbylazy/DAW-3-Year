@@ -11,34 +11,50 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
     protected static ?string $password;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+        $provincias = ['Sevilla', 'Cádiz', 'Málaga', 'Granada', 'Córdoba', 'Huelva', 'Jaén', 'Almería'];
+        $tallas = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
         return [
+            'dni' => fake()->unique()->bothify('########?'),
+            'fecha_nacimiento' => fake()->date('Y-m-d', '-16 years'),
+            'provincia' => fake()->randomElement($provincias),
+            'talla' => fake()->randomElement($tallas),
+
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+
             'password' => static::$password ??= Hash::make('password'),
+            'rol' => 'deportista',
+
             'remember_token' => Str::random(10),
+
+            'genero' => fake()->randomElement(['M', 'F']),
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn () => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function arbitro(): static
+    {
+        return $this->arbitro(fn(array $attributes)=>[
+            'rol' => 'arbitro'
+        ]);
+    }
+
+    public function entrenador(): static
+    {
+        return $this->arbitro(fn(array $attributes)=>[
+            'rol' => 'entrenador'
         ]);
     }
 }

@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Competicion;
 
 class User extends Authenticatable
 {
@@ -21,6 +23,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'dni',
+        'fecha_nacimiento',
+        'provincia',
+        'talla',
+        'genero',
     ];
 
     /**
@@ -43,6 +50,16 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'fecha_nacimiento' => 'datetime',
         ];
     }
+
+    public function competiciones(): BelongsToMany
+        {
+            return $this->belongsToMany(Competicion::class,'competicions_users','user_id','competicion_id')
+            
+            ->string('tipoDato')
+            ->string('dato')
+            ->withTimestamps();
+        }
 }

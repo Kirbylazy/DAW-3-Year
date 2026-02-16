@@ -2,24 +2,30 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Copa;
+use App\Models\Competicion;
+use App\Models\Ubicacion;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $copas = \App\Models\Copa::factory()->count(2)->create();
+        $ubis  = \App\Models\Ubicacion::factory()->count(6)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        \App\Models\Competicion::factory()->count(3)->create([
+        'copa_id' => $copas[0]->id,
+        'ubicacion_id' => $ubis[0]->id,
         ]);
+
+        \App\Models\Competicion::factory()->count(3)->create([
+        'copa_id' => $copas[1]->id,
+        'ubicacion_id' => $ubis[1]->id,
+        ]);
+
+        \App\Models\User::factory()->count(300)->create();
+
     }
 }
