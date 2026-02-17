@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agenda deportiva semanal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <h1>Agenda deportiva semanal</h1>
+    <nav class="topbar__nav">
+      <button class="chip" type="button">Mes</button>
+      <button class="chip chip--active" type="button">Semana</button>
+      <button class="chip" type="button">Agenda</button>
+      <button class="chip" type="button">Día</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <!-- IZQUIERDA -->
+    <aside class="sidebar">
+      <section class="card">
+        <div class="card__header">
+          <h2>Marzo</h2>
+          <span class="muted">31 días</span>
+        </div>
+
+        <div class="month">
+          <div class="month__weekdays" aria-hidden="true">
+            <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
+          </div>
+
+          <div class="month__grid" aria-label="Calendario del mes de marzo (solo visual)">
+            <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div>
+            <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
+            <div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div>
+            <div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div>
+            <div class="day">29</div><div class="day">30</div><div class="day">31</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card__header">
+          <h2>Calculadora IMC</h2>
+          <span class="muted">Índice de masa corporal</span>
+        </div>
+
+        <form id="bmiForm" class="form">
+          <label class="field">
+            <span>Peso (kg)</span>
+            <input id="peso" type="number" min="1" step="0.1" required />
+          </label>
+
+          <label class="field">
+            <span>Altura (cm)</span>
+            <input id="altura" type="number" min="50" step="0.1" required />
+          </label>
+
+          <button class="btn" type="submit">Calcular</button>
+
+          <div class="result" aria-live="polite">
+            <div><strong>IMC:</strong> <span id="bmiValue">—</span></div>
+            <div><strong>Estado:</strong> <span id="bmiStatus">—</span></div>
+          </div>
+        </form>
+      </section>
+    </aside>
+
+    <!-- DERECHA -->
+    <section class="main">
+      <section class="card card--noPad">
+        <div class="card__header card__header--pad">
+          <h2>Semana</h2>
+          <span class="muted">Lunes a Domingo · 30 min</span>
+        </div>
+
+        <div class="weekWrap">
+          <div id="weekGrid" class="weekGrid"></div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- MODAL -->
+  <div id="modalBackdrop" class="modalBackdrop hidden" aria-hidden="true"></div>
+
+  <div id="eventModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal__header">
+      <h3 id="modalTitle">Nueva cita</h3>
+      <button id="modalClose" class="iconBtn" type="button" aria-label="Cerrar">✕</button>
+    </div>
+
+    <div class="modal__body">
+      <p class="modal__info">
+        <strong>Horario seleccionado:</strong> <span id="modalSlotInfo">—</span>
+      </p>
+
+      <label class="field">
+        <span>Nombre del tramo horario</span>
+        <input id="eventName" type="text" maxlength="40" placeholder="Ej: Entreno" />
+      </label>
+    </div>
+
+    <div class="modal__footer">
+      <button id="modalCancel" class="btn btn--ghost" type="button">Cancelar</button>
+      <button id="modalSave" class="btn" type="button">Guardar</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
