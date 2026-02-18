@@ -28,6 +28,7 @@ class User extends Authenticatable
         'provincia',
         'talla',
         'genero',
+        'rol',
     ];
 
     /**
@@ -55,11 +56,24 @@ class User extends Authenticatable
     }
 
     public function competiciones(): BelongsToMany
-        {
-            return $this->belongsToMany(Competicion::class,'competicions_users','user_id','competicion_id')
-            
-            ->string('tipoDato')
-            ->string('dato')
+    {
+        return $this->belongsToMany(Competicion::class, 'competicions_users', 'user_id', 'competicion_id')
+            ->withPivot('tipoDato', 'dato')
             ->withTimestamps();
-        }
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->rol === 'admin';
+    }
+
+    public function isArbitro(): bool
+    {
+        return $this->rol === 'arbitro';
+    }
+
+    public function isCompetidor(): bool
+    {
+        return $this->rol === 'competidor';
+    }
 }

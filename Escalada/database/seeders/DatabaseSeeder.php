@@ -12,6 +12,18 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        User::create([
+            'name'             => 'admin',
+            'email'            => 'admin@escalada.com',
+            'password'         => bcrypt('admin'),
+            'rol'              => 'admin',
+            'dni'              => '00000000A',
+            'fecha_nacimiento' => '1990-01-01',
+            'provincia'        => 'Admin',
+            'talla'            => 'M',
+            'genero'           => 'otro',
+        ]);
+
         $copas = \App\Models\Copa::factory()->count(2)->create();
         $ubis  = \App\Models\Ubicacion::factory()->count(6)->create();
 

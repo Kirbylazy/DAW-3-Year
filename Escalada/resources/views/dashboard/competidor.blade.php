@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Dashboard — Competidor')
 
 @section('content')
 <h3 class="mb-3">Próximas competiciones</h3>
@@ -36,12 +36,10 @@
                                 </a>
                             @endif
 
-                            {{-- Más adelante: botón Inscribirme --}}
                             <button class="btn btn-sm btn-primary" disabled>
                                 Inscribirme (próximamente)
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>

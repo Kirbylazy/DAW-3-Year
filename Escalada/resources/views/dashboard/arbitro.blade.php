@@ -1,12 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Dashboard — Árbitro')
 
 @section('content')
-<h3 class="mb-3">Próximas competiciones</h3>
+<h3 class="mb-3">Bienvenido, árbitro {{ auth()->user()->name }}</h3>
+
+<div class="alert alert-info mb-4">
+    Desde aquí podrás gestionar las competiciones que te sean asignadas. Más funciones disponibles próximamente.
+</div>
+
+<h5 class="mb-3">Próximas competiciones</h5>
 
 @if($competiciones->count() === 0)
-    <div class="alert alert-info">
+    <div class="alert alert-secondary">
         No hay competiciones futuras ahora mismo.
     </div>
 @else
@@ -35,13 +41,7 @@
                                     Ver
                                 </a>
                             @endif
-
-                            {{-- Más adelante: botón Inscribirme --}}
-                            <button class="btn btn-sm btn-primary" disabled>
-                                Inscribirme (próximamente)
-                            </button>
                         </div>
-
                     </div>
                 </div>
             </div>
