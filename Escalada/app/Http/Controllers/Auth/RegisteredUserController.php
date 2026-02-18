@@ -49,6 +49,7 @@ class RegisteredUserController extends Controller
             'talla' => $request->talla,
             'fecha_nacimiento' => $request->fecha_nacimiento,
             'password' => Hash::make($request->password),
+            'rol' => 'competidor',
         ]);
 
         event(new Registered($user));
