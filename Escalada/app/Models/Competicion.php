@@ -18,6 +18,7 @@ class Competicion extends Model
 
     protected $fillable = [
         'copa_id',
+        'arbitro_id',
         'ubicacion_id',
         'name',
         'provincia',
@@ -44,12 +45,15 @@ class Competicion extends Model
         return $this->belongsTo(Ubicacion::class, 'ubicacion_id');
     }
 
+    public function arbitro(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'arbitro_id');
+    }
+
     public function usuarios(): BelongsToMany
     {
-        return $this->belongsToMany(User::class,'competicions_users','competicion_id','user_id')
-        
-        ->string('tipoDato')
-        ->string('dato')
-        ->withTimestamps();
+        return $this->belongsToMany(User::class, 'competicions_users', 'competicion_id', 'user_id')
+            ->withPivot('tipoDato', 'dato')
+            ->withTimestamps();
     }
 }

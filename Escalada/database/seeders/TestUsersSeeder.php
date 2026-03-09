@@ -9,6 +9,17 @@ class TestUsersSeeder extends Seeder
 {
     public function run(): void
     {
+        User::firstOrCreate(['email' => 'arbitro@escalada.com'], [
+            'name'             => 'arbitro',
+            'password'         => bcrypt('password'),
+            'rol'              => 'arbitro',
+            'dni'              => '11111111B',
+            'fecha_nacimiento' => '1988-03-20',
+            'provincia'        => 'Sevilla',
+            'talla'            => 'M',
+            'genero'           => 'otro',
+        ]);
+
         User::firstOrCreate(['email' => 'entrenador@escalada.com'], [
             'name'             => 'entrenador',
             'password'         => bcrypt('password'),

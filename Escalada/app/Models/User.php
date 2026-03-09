@@ -84,23 +84,25 @@ class User extends Authenticatable
             ->wherePivot('estado', 'accepted');
     }
 
-    public function isAdmin(): bool
+    protected function rolNivel(): int
     {
-        return $this->rol === 'admin';
+        return match($this->rol) {
+            'admin'      => 4,
+            'arbitro'    => 3,
+            'entrenador' => 2,
+            'competidor' => 1,
+            default      => 0,
+        };
     }
 
-    public function isArbitro(): bool
-    {
-        return $this->rol === 'arbitro';
-    }
+    public function isAdmin(): bool      { return $this->rolNivel() >= 4; }
+    public function isArbitro(): bool    { return $this->rolNivel() >= 3; }
+    public function isEntrenador(): bool { return $this->rolNivel() >= 2; }
+    public function isCompetidor(): bool { return $this->rolNivel() >= 1; }
 
-    public function isCompetidor(): bool
+    /** Competiciones en las que este usuario es árbitro asignado */
+    public function competicionesArbitradas()
     {
-        return $this->rol === 'competidor';
-    }
-
-    public function isEntrenador(): bool
-    {
-        return $this->rol === 'entrenador';
+        return $this->hasMany(\App\Models\Competicion::class, 'arbitro_id');
     }
 }

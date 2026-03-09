@@ -21,12 +21,36 @@ Route::get('/dashboard', function () {
     $user = auth()->user();
 
     if ($user->isAdmin()) {
-        $usuarios = User::where('id', '!=', auth()->id())->orderBy('name')->paginate(20);
-        return view('dashboard.admin', compact('competiciones', 'usuarios'));
+        $usuarios  = User::where('id', '!=', auth()->id())->orderBy('name')->get();
+        $arbitros  = User::whereIn('rol', ['arbitro', 'admin'])->orderBy('name')->get();
+        $competiciones = Competicion::with('arbitro', 'copa')->orderBy('fecha_realizacion')->get();
+        return view('dashboard.admin', compact('usuarios', 'arbitros', 'competiciones'));
     }
 
-    if ($user->isArbitro()) {
-        return view('dashboard.arbitro', compact('competiciones'));
+    if ($user->isArbitro() && !$user->isAdmin()) {
+        $competidores        = $user->competidoresAceptados()->get();
+        $pendientes          = $user->competidoresPendientes()->get();
+        $competicionesArbitradas = $user->competicionesArbitradas()->with('copa', 'ubicacion')->get();
+
+        $userBuscado = null;
+        if (request('dni')) {
+            $userBuscado = User::where('dni', request('dni'))
+                ->where('rol', 'competidor')
+                ->first();
+        }
+
+        $misInscripciones = $user->competiciones()->with('copa', 'ubicacion')->get();
+        $inscripcionesEquipo = collect();
+        foreach ($competidores as $comp) {
+            foreach ($comp->competiciones()->with('copa', 'ubicacion')->get() as $c) {
+                $inscripcionesEquipo->push(['competicion' => $c, 'competidor' => $comp]);
+            }
+        }
+
+        return view('dashboard.arbitro', compact(
+            'competiciones', 'competicionesArbitradas', 'competidores', 'pendientes',
+            'userBuscado', 'misInscripciones', 'inscripcionesEquipo'
+        ));
     }
 
     if ($user->isEntrenador()) {
@@ -71,6 +95,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'rol:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/usuarios', [AdminController::class, 'index'])->name('usuarios');
     Route::patch('/usuarios/{user}/rol', [AdminController::class, 'updateRol'])->name('usuarios.rol');
+    Route::patch('/competiciones/{competicion}/arbitro', [AdminController::class, 'asignarArbitro'])->name('competiciones.arbitro');
 });
 
 Route::middleware(['auth', 'rol:entrenador'])->prefix('entrenador')->name('entrenador.')->group(function () {

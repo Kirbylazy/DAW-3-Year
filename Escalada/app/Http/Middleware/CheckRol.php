@@ -10,7 +10,12 @@ class CheckRol
 {
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (!$request->user() || !in_array($request->user()->rol, $roles)) {
+        $niveles = ['competidor' => 1, 'entrenador' => 2, 'arbitro' => 3, 'admin' => 4];
+
+        $userNivel   = $niveles[$request->user()?->rol] ?? 0;
+        $minRequerido = collect($roles)->map(fn($r) => $niveles[$r] ?? 0)->min();
+
+        if (!$request->user() || $userNivel < $minRequerido) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permiso para acceder a esa sección.');
         }
