@@ -3,6 +3,50 @@
 @section('title', 'Dashboard — Competidor')
 
 @section('content')
+
+{{-- Solicitudes de entrenador pendientes --}}
+@if($notificaciones->isNotEmpty())
+    <div class="card mb-4 border-warning">
+        <div class="card-header bg-warning text-dark fw-semibold">
+            Solicitudes de entrenador
+        </div>
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush">
+                @foreach($notificaciones as $notif)
+                    @if($notif->data['tipo'] === 'solicitud_entrenador')
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ $notif->data['mensaje'] }}</span>
+                            <div class="d-flex gap-2">
+                                <form method="POST" action="{{ route('notificaciones.aceptar', $notif->id) }}">
+                                    @csrf
+                                    <button class="btn btn-sm btn-success">Aceptar</button>
+                                </form>
+                                <form method="POST" action="{{ route('notificaciones.rechazar', $notif->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-outline-danger">Rechazar</button>
+                                </form>
+                            </div>
+                        </li>
+                    @endif
+                @endforeach
+            </ul>
+        </div>
+    </div>
+@endif
+
+{{-- Entrenador actual --}}
+@if($entrenador)
+    <div class="alert alert-info d-flex justify-content-between align-items-center">
+        <span>Tu entrenador es <strong>{{ $entrenador->name }}</strong>.</span>
+        <form method="POST" action="{{ route('notificaciones.desvincular') }}">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-sm btn-outline-danger">Desvincularme</button>
+        </form>
+    </div>
+@endif
+
 <h3 class="mb-3">Próximas competiciones</h3>
 
 @if($competiciones->count() === 0)

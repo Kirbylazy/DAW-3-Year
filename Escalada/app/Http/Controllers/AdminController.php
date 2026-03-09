@@ -25,7 +25,7 @@ class AdminController extends Controller
     public function updateRol(Request $request, User $user)
     {
         $request->validate([
-            'rol' => ['required', 'in:competidor,arbitro'],
+            'rol' => ['required', 'in:competidor,arbitro,entrenador'],
         ]);
 
         $user->update(['rol' => $request->rol]);

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\Competicion;
 
 class User extends Authenticatable
 {
@@ -57,9 +56,32 @@ class User extends Authenticatable
 
     public function competiciones(): BelongsToMany
     {
-        return $this->belongsToMany(Competicion::class, 'competicions_users', 'user_id', 'competicion_id')
+        return $this->belongsToMany(\App\Models\Competicion::class, 'competicions_users', 'user_id', 'competicion_id')
             ->withPivot('tipoDato', 'dato')
             ->withTimestamps();
+    }
+
+    /** Competidores aceptados por este entrenador */
+    public function competidoresAceptados(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'entrenador_competidor', 'entrenador_id', 'competidor_id')
+            ->wherePivot('estado', 'accepted')
+            ->withPivot('estado', 'created_at');
+    }
+
+    /** Solicitudes enviadas por este entrenador aún sin respuesta */
+    public function competidoresPendientes(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'entrenador_competidor', 'entrenador_id', 'competidor_id')
+            ->wherePivot('estado', 'pending')
+            ->withPivot('estado', 'created_at');
+    }
+
+    /** Entrenador aceptado de este competidor (devuelve colección con 0 o 1 elemento) */
+    public function entrenadores(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'entrenador_competidor', 'competidor_id', 'entrenador_id')
+            ->wherePivot('estado', 'accepted');
     }
 
     public function isAdmin(): bool
@@ -75,5 +97,10 @@ class User extends Authenticatable
     public function isCompetidor(): bool
     {
         return $this->rol === 'competidor';
+    }
+
+    public function isEntrenador(): bool
+    {
+        return $this->rol === 'entrenador';
     }
 }

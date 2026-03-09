@@ -39,5 +39,6 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->count(300)->create();
 
+        $this->call(TestUsersSeeder::class);
     }
 }

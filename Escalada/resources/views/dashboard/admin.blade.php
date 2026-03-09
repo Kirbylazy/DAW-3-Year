@@ -34,10 +34,14 @@
                         <td>{{ $u->name }}</td>
                         <td>{{ $u->email }}</td>
                         <td>
-                            <span class="badge
-                                {{ $u->rol === 'arbitro' ? 'bg-warning text-dark' : 'bg-secondary' }}">
-                                {{ $u->rol }}
-                            </span>
+                            @php
+                                $badgeClass = match($u->rol) {
+                                    'arbitro'    => 'bg-warning text-dark',
+                                    'entrenador' => 'bg-success',
+                                    default      => 'bg-secondary',
+                                };
+                            @endphp
+                            <span class="badge {{ $badgeClass }}">{{ $u->rol }}</span>
                         </td>
                         <td>
                             <form method="POST"
@@ -46,8 +50,9 @@
                                 @csrf
                                 @method('PATCH')
                                 <select name="rol" class="form-select form-select-sm" style="width:auto">
-                                    <option value="competidor" @selected($u->rol === 'competidor')>Competidor</option>
-                                    <option value="arbitro"    @selected($u->rol === 'arbitro')>Árbitro</option>
+                                    <option value="competidor"  @selected($u->rol === 'competidor')>Competidor</option>
+                                    <option value="arbitro"     @selected($u->rol === 'arbitro')>Árbitro</option>
+                                    <option value="entrenador"  @selected($u->rol === 'entrenador')>Entrenador</option>
                                 </select>
                                 <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
                             </form>
