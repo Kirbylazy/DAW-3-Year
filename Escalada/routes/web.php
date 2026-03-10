@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EntrenadorController;
 use App\Http\Controllers\NotificacionController;
+use App\Http\Controllers\InscripcionController;
+use App\Http\Controllers\ArbitroController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Competicion;
 use App\Models\User;
@@ -79,11 +81,20 @@ Route::get('/dashboard', function () {
         ));
     }
 
-    // Competidor: cargar entrenador actual y notificaciones pendientes
-    $entrenador          = $user->entrenadores()->first();
-    $notificaciones      = $user->unreadNotifications;
+    // Competidor: cargar entrenador actual, notificaciones y todas las competiciones
+    $entrenador     = $user->entrenadores()->first();
+    $notificaciones = $user->unreadNotifications;
 
-    return view('dashboard.competidor', compact('competiciones', 'entrenador', 'notificaciones'));
+    $competiciones = Competicion::with('copa', 'ubicacion')
+        ->orderBy('fecha_realizacion', 'desc')
+        ->paginate(12);
+
+    $inscripciones = $user->inscripciones()
+        ->whereIn('competicion_id', $competiciones->pluck('id'))
+        ->get()
+        ->keyBy('competicion_id');
+
+    return view('dashboard.competidor', compact('competiciones', 'entrenador', 'notificaciones', 'inscripciones'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -102,6 +113,23 @@ Route::middleware(['auth', 'rol:entrenador'])->prefix('entrenador')->name('entre
     Route::post('/solicitar', [EntrenadorController::class, 'solicitarVinculo'])->name('solicitar');
     Route::delete('/competidor/{competidor}', [EntrenadorController::class, 'eliminarCompetidor'])->name('eliminar_competidor');
     Route::post('/inscribir', [EntrenadorController::class, 'inscribir'])->name('inscribir');
+});
+
+// Competiciones — detalle accesible para cualquier usuario autenticado
+Route::middleware('auth')->group(function () {
+    Route::get('/competiciones/{competicion}', [InscripcionController::class, 'show'])->name('competiciones.show');
+    Route::post('/inscripciones/{competicion}/licencia', [InscripcionController::class, 'uploadLicencia'])->name('inscripciones.upload_licencia');
+    Route::post('/inscripciones/{competicion}/pago', [InscripcionController::class, 'uploadPago'])->name('inscripciones.upload_pago');
+    Route::post('/inscripciones/{competicion}', [InscripcionController::class, 'store'])->name('inscripciones.store');
+});
+
+// Árbitro — gestión de inscripciones de su competición
+Route::middleware(['auth', 'rol:arbitro'])->prefix('arbitro')->name('arbitro.')->group(function () {
+    Route::get('/competicion/{competicion}', [ArbitroController::class, 'competicion'])->name('competicion');
+    Route::get('/competicion/{competicion}/categoria/{categoria}', [ArbitroController::class, 'categoria'])->name('categoria');
+    Route::get('/inscripcion/{inscripcion}/documento/{tipo}', [ArbitroController::class, 'verDocumento'])->name('ver_documento');
+    Route::patch('/inscripcion/{inscripcion}/validar', [ArbitroController::class, 'validarLicencia'])->name('validar_licencia');
+    Route::patch('/inscripcion/{inscripcion}/categoria', [ArbitroController::class, 'cambiarCategoria'])->name('cambiar_categoria');
 });
 
 Route::middleware('auth')->prefix('notificaciones')->name('notificaciones.')->group(function () {

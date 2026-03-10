@@ -105,4 +105,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(\App\Models\Competicion::class, 'arbitro_id');
     }
+
+    public function inscripciones()
+    {
+        return $this->hasMany(\App\Models\Inscripcion::class);
+    }
+
+    public function licenciaValidaciones()
+    {
+        return $this->hasMany(\App\Models\LicenciaValidacion::class);
+    }
 }

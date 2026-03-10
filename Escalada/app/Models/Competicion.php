@@ -56,4 +56,9 @@ class Competicion extends Model
             ->withPivot('tipoDato', 'dato')
             ->withTimestamps();
     }
+
+    public function inscripciones()
+    {
+        return $this->hasMany(\App\Models\Inscripcion::class);
+    }
 }

@@ -20,6 +20,7 @@
                         <th>Tipo</th>
                         <th>Provincia</th>
                         <th>Copa</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +36,12 @@
                             <td><span class="badge bg-secondary">{{ $c->tipo }}</span></td>
                             <td>{{ $c->provincia }}</td>
                             <td>{{ $c->copa?->name ?? '—' }}</td>
+                            <td class="text-end">
+                                <a href="{{ route('arbitro.competicion', $c->id) }}"
+                                   class="btn btn-sm btn-primary">
+                                    Gestionar inscripciones
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
