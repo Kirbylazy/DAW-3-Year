@@ -25,14 +25,22 @@ class Competicion extends Model
         'fecha_realizacion',
         'tipo',
         'campeonato',
+        'categorias',
     ];
 
     protected function casts(): array
     {
         return [
             'fecha_realizacion' => 'datetime',
-            'campeonato' => 'boolean',
+            'campeonato'        => 'boolean',
+            'categorias'        => 'array',
         ];
+    }
+
+    /** Categorías base disponibles para seleccionar en una competición */
+    public static function categoriasDisponibles(): array
+    {
+        return ['U9', 'U11', 'U13', 'U15', 'U17', 'U19', 'Absoluta', 'Veterana', 'Promoción'];
     }
 
     public function copa(): BelongsTo

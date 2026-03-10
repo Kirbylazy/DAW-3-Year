@@ -6,6 +6,9 @@ use App\Http\Controllers\EntrenadorController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\ArbitroController;
+use App\Http\Controllers\CopaController;
+use App\Http\Controllers\CompeticionController;
+use App\Http\Controllers\UbicacionController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Competicion;
 use App\Models\User;
@@ -23,10 +26,7 @@ Route::get('/dashboard', function () {
     $user = auth()->user();
 
     if ($user->isAdmin()) {
-        $usuarios  = User::where('id', '!=', auth()->id())->orderBy('name')->get();
-        $arbitros  = User::whereIn('rol', ['arbitro', 'admin'])->orderBy('name')->get();
-        $competiciones = Competicion::with('arbitro', 'copa')->orderBy('fecha_realizacion')->get();
-        return view('dashboard.admin', compact('usuarios', 'arbitros', 'competiciones'));
+        return redirect()->route('admin.pruebas');
     }
 
     if ($user->isArbitro() && !$user->isAdmin()) {
@@ -104,9 +104,28 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'rol:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/usuarios', [AdminController::class, 'index'])->name('usuarios');
+    Route::get('/pruebas',    [AdminController::class, 'pruebas'])->name('pruebas');
+    Route::get('/copas',      [AdminController::class, 'copas'])->name('copas');
+    Route::get('/usuarios',   [AdminController::class, 'usuarios'])->name('usuarios');
+    Route::get('/rocodromos', [AdminController::class, 'rocodromos'])->name('rocodromos');
+
+    Route::patch('/usuarios/{user}',     [AdminController::class, 'actualizarUsuario'])->name('usuarios.update');
+    Route::delete('/usuarios/{user}',    [AdminController::class, 'destroyUsuario'])->name('usuarios.destroy');
     Route::patch('/usuarios/{user}/rol', [AdminController::class, 'updateRol'])->name('usuarios.rol');
-    Route::patch('/competiciones/{competicion}/arbitro', [AdminController::class, 'asignarArbitro'])->name('competiciones.arbitro');
+
+    Route::patch('/competiciones/{competicion}/arbitro',    [AdminController::class, 'asignarArbitro'])->name('competiciones.arbitro');
+    Route::post('/competiciones',                            [CompeticionController::class, 'store'])->name('competiciones.store');
+    Route::patch('/competiciones/{competicion}',             [CompeticionController::class, 'update'])->name('competiciones.update');
+    Route::delete('/competiciones/{competicion}',            [CompeticionController::class, 'destroy'])->name('competiciones.destroy');
+    Route::patch('/competiciones/{competicion}/campeonato',  [CompeticionController::class, 'toggleCampeonato'])->name('competiciones.campeonato');
+
+    Route::post('/copas',           [CopaController::class, 'store'])->name('copas.store');
+    Route::patch('/copas/{copa}',   [CopaController::class, 'update'])->name('copas.update');
+    Route::delete('/copas/{copa}',  [CopaController::class, 'destroy'])->name('copas.destroy');
+
+    Route::post('/rocodromos',               [UbicacionController::class, 'store'])->name('rocodromos.store');
+    Route::patch('/rocodromos/{ubicacion}',  [UbicacionController::class, 'update'])->name('rocodromos.update');
+    Route::delete('/rocodromos/{ubicacion}', [UbicacionController::class, 'destroy'])->name('rocodromos.destroy');
 });
 
 Route::middleware(['auth', 'rol:entrenador'])->prefix('entrenador')->name('entrenador.')->group(function () {
