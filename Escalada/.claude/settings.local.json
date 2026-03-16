@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan:*)",
+      "Bash(mysql:*)",
+      "Bash(where mysql)",
+      "Read(//c/xampp/**)"
+    ]
+  }
+}
