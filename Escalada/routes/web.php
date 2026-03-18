@@ -30,29 +30,7 @@ Route::get('/dashboard', function () {
     }
 
     if ($user->isArbitro() && !$user->isAdmin()) {
-        $competidores        = $user->competidoresAceptados()->get();
-        $pendientes          = $user->competidoresPendientes()->get();
-        $competicionesArbitradas = $user->competicionesArbitradas()->with('copa', 'ubicacion')->get();
-
-        $userBuscado = null;
-        if (request('dni')) {
-            $userBuscado = User::where('dni', request('dni'))
-                ->where('rol', 'competidor')
-                ->first();
-        }
-
-        $misInscripciones = $user->competiciones()->with('copa', 'ubicacion')->get();
-        $inscripcionesEquipo = collect();
-        foreach ($competidores as $comp) {
-            foreach ($comp->competiciones()->with('copa', 'ubicacion')->get() as $c) {
-                $inscripcionesEquipo->push(['competicion' => $c, 'competidor' => $comp]);
-            }
-        }
-
-        return view('dashboard.arbitro', compact(
-            'competiciones', 'competicionesArbitradas', 'competidores', 'pendientes',
-            'userBuscado', 'misInscripciones', 'inscripcionesEquipo'
-        ));
+        return redirect()->route('arbitro.panel');
     }
 
     if ($user->isEntrenador()) {
@@ -142,8 +120,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/inscripciones/{competicion}', [InscripcionController::class, 'store'])->name('inscripciones.store');
 });
 
-// Árbitro — gestión de inscripciones de su competición
+// Árbitro — panel y gestión de inscripciones
 Route::middleware(['auth', 'rol:arbitro'])->prefix('arbitro')->name('arbitro.')->group(function () {
+    Route::get('/',                  [ArbitroController::class, 'panel'])->name('panel');
+    Route::get('/entrenador',        [ArbitroController::class, 'panelEntrenador'])->name('panel.entrenador');
+    Route::get('/deportista',        [ArbitroController::class, 'panelDeportista'])->name('panel.deportista');
     Route::get('/competicion/{competicion}', [ArbitroController::class, 'competicion'])->name('competicion');
     Route::get('/competicion/{competicion}/categoria/{categoria}', [ArbitroController::class, 'categoria'])->name('categoria');
     Route::get('/inscripcion/{inscripcion}/documento/{tipo}', [ArbitroController::class, 'verDocumento'])->name('ver_documento');

@@ -2,10 +2,7 @@
 @section('title', 'Admin — Pruebas')
 
 @section('content')
-<div class="row g-4" x-data="{
-    prueba: {},
-    abrir(p) { this.prueba = p; }
-}">
+<div class="row g-4">
 
 {{-- Sidebar izquierdo --}}
 <div class="col-auto">
@@ -14,13 +11,6 @@
 
 {{-- Contenido principal --}}
 <div class="col">
-
-@if(session('status'))
-    <div class="alert alert-success alert-dismissible fade show">{{ session('status') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
-@endif
-@if(session('error'))
-    <div class="alert alert-danger alert-dismissible fade show">{{ session('error') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
-@endif
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Pruebas</h4>
@@ -67,7 +57,12 @@
                                 <div class="text-muted small">{{ implode(', ', $c->categorias) }}</div>
                             @endif
                         </td>
-                        <td class="small text-muted text-nowrap">{{ $c->fecha_realizacion?->format('d/m/Y H:i') ?? '—' }}</td>
+                        <td class="small text-muted text-nowrap">
+                            {{ $c->fecha_realizacion?->format('d/m/Y') ?? '—' }}
+                            @if($c->fecha_fin)
+                                <span class="text-muted">→ {{ $c->fecha_fin->format('d/m/Y') }}</span>
+                            @endif
+                        </td>
                         <td><span class="badge bg-secondary">{{ $c->tipo }}</span></td>
                         <td class="small">{{ $c->copa?->name ?? '—' }}</td>
                         <td>
@@ -99,17 +94,16 @@
                             <div class="d-flex gap-1">
                                 <button class="btn btn-sm btn-outline-primary"
                                         data-bs-toggle="modal" data-bs-target="#modalEditarPrueba"
-                                        @click="abrir({{ Js::from([
-                                            'id'               => $c->id,
-                                            'name'             => $c->name,
-                                            'tipo'             => $c->tipo,
-                                            'fecha_realizacion'=> $c->fecha_realizacion?->format('Y-m-d\TH:i'),
-                                            'provincia'        => $c->provincia,
-                                            'ubicacion_id'     => $c->ubicacion_id,
-                                            'copa_id'          => $c->copa_id ?? '',
-                                            'arbitro_id'       => $c->arbitro_id ?? '',
-                                            'categorias'       => $c->categorias ?? [],
-                                        ]) }})">
+                                        data-id="{{ $c->id }}"
+                                        data-name="{{ $c->name }}"
+                                        data-tipo="{{ $c->tipo }}"
+                                        data-fecha="{{ $c->fecha_realizacion?->format('Y-m-d\TH:i') }}"
+                                        data-fecha-fin="{{ $c->fecha_fin?->format('Y-m-d\TH:i') }}"
+                                        data-provincia="{{ $c->provincia }}"
+                                        data-ubicacion-id="{{ $c->ubicacion_id }}"
+                                        data-copa-id="{{ $c->copa_id ?? '' }}"
+                                        data-arbitro-id="{{ $c->arbitro_id ?? '' }}"
+                                        data-categorias="{{ json_encode($c->categorias ?? []) }}">
                                     Editar
                                 </button>
                                 <form method="POST" action="{{ route('admin.competiciones.destroy', $c->id) }}"
@@ -137,81 +131,77 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Editar prueba — <span x-text="prueba.name"></span></h5>
+                <h5 class="modal-title">Editar prueba — <span id="editarPruebaNombreTitle"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" :action="'/admin/competiciones/' + prueba.id">
+            <form method="POST" action="" id="editarPruebaForm">
                 @csrf @method('PATCH')
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label fw-semibold">Nombre</label>
-                            <input type="text" name="name" class="form-control" x-model="prueba.name" required>
+                            <input type="text" name="name" id="editarPruebaName" class="form-control" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-semibold">Tipo</label>
-                            <select name="tipo" class="form-select" x-model="prueba.tipo" required>
+                            <select name="tipo" id="editarPruebaTipo" class="form-select" required>
                                 <option value="bloque">Bloque</option>
                                 <option value="dificultad">Dificultad</option>
                                 <option value="velocidad">Velocidad</option>
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-semibold">Fecha y hora</label>
-                            <input type="datetime-local" name="fecha_realizacion" class="form-control"
-                                   x-model="prueba.fecha_realizacion" required>
+                            <label class="form-label fw-semibold">Fecha inicio</label>
+                            <input type="datetime-local" name="fecha_realizacion" id="editarPruebaFecha" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Fecha fin <span class="fw-normal text-muted">(opcional)</span></label>
+                            <input type="datetime-local" name="fecha_fin" id="editarPruebaFechaFin" class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-semibold">Provincia</label>
-                            <select name="provincia" class="form-select" required>
+                            <select name="provincia" id="editarPruebaProvincia" class="form-select" required>
                                 <option value="">Selecciona...</option>
                                 @foreach(['Almería','Cádiz','Córdoba','Granada','Huelva','Jaén','Málaga','Sevilla'] as $prov)
-                                    <option value="{{ $prov }}" :selected="prueba.provincia === '{{ $prov }}'">{{ $prov }}</option>
+                                    <option value="{{ $prov }}">{{ $prov }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Rocódromo</label>
-                            <select name="ubicacion_id" class="form-select" required>
+                            <select name="ubicacion_id" id="editarPruebaUbicacion" class="form-select" required>
                                 <option value="">Selecciona...</option>
                                 @foreach($ubicaciones as $u)
-                                    <option value="{{ $u->id }}" :selected="prueba.ubicacion_id == {{ $u->id }}">
-                                        {{ $u->name }} — {{ $u->provincia }}
-                                    </option>
+                                    <option value="{{ $u->id }}">{{ $u->name }} — {{ $u->provincia }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Copa asociada</label>
-                            <select name="copa_id" class="form-select">
+                            <select name="copa_id" id="editarPruebaCopa" class="form-select">
                                 <option value="">— Sin copa —</option>
                                 @foreach($copas as $copa)
-                                    <option value="{{ $copa->id }}" :selected="prueba.copa_id == {{ $copa->id }}">
-                                        {{ $copa->name }}
-                                    </option>
+                                    <option value="{{ $copa->id }}">{{ $copa->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Árbitro</label>
-                            <select name="arbitro_id" class="form-select">
+                            <select name="arbitro_id" id="editarPruebaArbitro" class="form-select">
                                 <option value="">— Sin árbitro —</option>
                                 @foreach($arbitros as $a)
-                                    <option value="{{ $a->id }}" :selected="prueba.arbitro_id == {{ $a->id }}">
-                                        {{ $a->name }}
-                                    </option>
+                                    <option value="{{ $a->id }}">{{ $a->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-semibold d-block">Categorías <span class="fw-normal text-muted small">(masculino y femenino)</span></label>
-                            <div class="d-flex flex-wrap gap-2">
+                            <div class="d-flex flex-wrap gap-2" id="editarPruebaCategorias">
                                 @foreach(\App\Models\Competicion::categoriasDisponibles() as $cat)
                                     <div class="form-check form-check-inline border rounded px-3 py-2 m-0">
                                         <input class="form-check-input" type="checkbox"
                                                name="categorias[]" value="{{ $cat }}"
-                                               id="ecat_{{ $cat }}"
-                                               :checked="(prueba.categorias || []).includes('{{ $cat }}')">
+                                               id="ecat_{{ $cat }}">
                                         <label class="form-check-label" for="ecat_{{ $cat }}">{{ $cat }}</label>
                                     </div>
                                 @endforeach
@@ -227,6 +217,28 @@
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('modalEditarPrueba').addEventListener('show.bs.modal', function (event) {
+    const btn = event.relatedTarget;
+    const categorias = JSON.parse(btn.dataset.categorias || '[]');
+
+    document.getElementById('editarPruebaForm').action = '/admin/competiciones/' + btn.dataset.id;
+    document.getElementById('editarPruebaNombreTitle').textContent = btn.dataset.name;
+    document.getElementById('editarPruebaName').value = btn.dataset.name;
+    document.getElementById('editarPruebaTipo').value = btn.dataset.tipo;
+    document.getElementById('editarPruebaFecha').value = btn.dataset.fecha;
+    document.getElementById('editarPruebaFechaFin').value = btn.dataset.fechaFin || '';
+    document.getElementById('editarPruebaProvincia').value = btn.dataset.provincia;
+    document.getElementById('editarPruebaUbicacion').value = btn.dataset.ubicacionId;
+    document.getElementById('editarPruebaCopa').value = btn.dataset.copaId;
+    document.getElementById('editarPruebaArbitro').value = btn.dataset.arbitroId;
+
+    document.querySelectorAll('#editarPruebaCategorias input[type=checkbox]').forEach(function(cb) {
+        cb.checked = categorias.includes(cb.value);
+    });
+});
+</script>
 
 {{-- MODAL CREAR PRUEBA --}}
 <div class="modal fade" id="modalCrearPrueba" tabindex="-1" aria-hidden="true">
@@ -271,10 +283,15 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-semibold">Fecha y hora</label>
+                            <label class="form-label fw-semibold">Fecha inicio</label>
                             <input type="datetime-local" name="fecha_realizacion" class="form-control"
                                    x-model="fecha" @change="copaManual=false; sincronizarCopa()"
                                    value="{{ old('fecha_realizacion') }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Fecha fin <span class="fw-normal text-muted">(opcional)</span></label>
+                            <input type="datetime-local" name="fecha_fin" class="form-control"
+                                   value="{{ old('fecha_fin') }}">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-semibold">Provincia</label>

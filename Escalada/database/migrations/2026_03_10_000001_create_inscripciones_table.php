@@ -15,6 +15,10 @@ return new class extends Migration
             $table->string('licencia_path')->nullable();
             $table->string('pago_path')->nullable();
             $table->enum('estado', ['borrador', 'pendiente', 'aprobada', 'rechazada'])->default('borrador');
+            $table->enum('licencia_estado', ['valida', 'valida_dia', 'no_valida'])->nullable();
+            $table->enum('pago_estado',     ['valida', 'valida_dia', 'no_valida'])->nullable();
+            $table->text('licencia_motivo')->nullable();
+            $table->text('pago_motivo')->nullable();
             $table->text('motivo_rechazo')->nullable();
             $table->string('categoria')->nullable();
             $table->timestamps();

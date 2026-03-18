@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Competicion;
 use App\Models\Inscripcion;
 use App\Models\LicenciaValidacion;
+use App\Models\User;
 use Illuminate\Support\Collection;
 use App\Notifications\InscripcionActualizadaNotification;
 use Illuminate\Http\Request;
@@ -12,6 +13,46 @@ use Illuminate\Support\Facades\Storage;
 
 class ArbitroController extends Controller
 {
+    /** Panel principal del árbitro: sus competiciones asignadas */
+    public function panel()
+    {
+        $competicionesArbitradas = auth()->user()
+            ->competicionesArbitradas()
+            ->with('copa', 'ubicacion')
+            ->get();
+
+        return view('arbitro.panel.arbitro', compact('competicionesArbitradas'));
+    }
+
+    /** Panel entrenador: equipo, solicitudes, añadir, inscribir */
+    public function panelEntrenador()
+    {
+        $user = auth()->user();
+        $competidores = $user->competidoresAceptados()->get();
+        $pendientes   = $user->competidoresPendientes()->get();
+
+        $userBuscado = null;
+        if (request('dni')) {
+            $userBuscado = User::where('dni', request('dni'))
+                ->where('rol', 'competidor')
+                ->first();
+        }
+
+        $competiciones = Competicion::where('fecha_realizacion', '>=', now())
+            ->orderBy('fecha_realizacion')
+            ->get();
+
+        return view('arbitro.panel.entrenador', compact('competidores', 'pendientes', 'userBuscado', 'competiciones'));
+    }
+
+    /** Panel deportista: inscripciones propias */
+    public function panelDeportista()
+    {
+        $misInscripciones = auth()->user()->competiciones()->with('copa')->get();
+
+        return view('arbitro.panel.deportista', compact('misInscripciones'));
+    }
+
     /** Dashboard de la competición: resumen por categorías */
     public function competicion(Competicion $competicion)
     {

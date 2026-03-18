@@ -12,19 +12,26 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('copa_id')
+                  ->nullable()
                   ->constrained('copas')
-                  ->cascadeOnDelete();
+                  ->nullOnDelete();
 
-            $table->string('name');
-            $table->string('provincia');
-            $table->dateTime('fecha_realizacion');
-            $table->string('tipo');
+            $table->foreignId('arbitro_id')
+                  ->nullable()
+                  ->constrained('users')
+                  ->nullOnDelete();
 
             $table->foreignId('ubicacion_id')
                   ->constrained('ubicacions')
                   ->cascadeOnDelete();
 
-            $table->boolean('campeonato');
+            $table->string('name');
+            $table->string('provincia');
+            $table->dateTime('fecha_realizacion');
+            $table->dateTime('fecha_fin')->nullable();
+            $table->string('tipo');
+            $table->boolean('campeonato')->default(false);
+            $table->json('categorias')->nullable();
             $table->timestamps();
         });
     }

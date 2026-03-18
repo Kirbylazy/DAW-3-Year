@@ -2,23 +2,18 @@
 @section('title', 'Admin — Copas')
 
 @section('content')
-<div class="row g-4" x-data="{
+<div x-data="{
     copa: {},
-    abrir(c) { this.copa = c; }
+    abrir(c) { this.copa = c; this.$refs.editarCopaForm.action = '/admin/copas/' + c.id; },
+    get nombreAuto() { return 'Copa Andaluza de ' + ({bloque:'Bloque',dificultad:'Dificultad',velocidad:'Velocidad'}[this.copa.tipo]||this.copa.tipo) + ' ' + this.copa.temporada; }
 }">
+<div class="row g-4">
 
 <div class="col-auto">
     @include('admin.partials.sidebar')
 </div>
 
 <div class="col">
-
-@if(session('status'))
-    <div class="alert alert-success alert-dismissible fade show">{{ session('status') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
-@endif
-@if(session('error'))
-    <div class="alert alert-danger alert-dismissible fade show">{{ session('error') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
-@endif
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Copas</h4>
@@ -55,7 +50,10 @@
                             <div class="d-flex gap-1">
                                 <button class="btn btn-sm btn-outline-primary"
                                         data-bs-toggle="modal" data-bs-target="#modalEditarCopa"
-                                        @click="abrir({{ Js::from(['id'=>$copa->id,'name'=>$copa->name,'tipo'=>$copa->tipo,'temporada'=>$copa->temporada]) }})">
+                                        data-id="{{ $copa->id }}"
+                                        data-name="{{ $copa->name }}"
+                                        data-tipo="{{ $copa->tipo }}"
+                                        data-temporada="{{ $copa->temporada }}">
                                     Editar
                                 </button>
                                 <form method="POST" action="{{ route('admin.copas.destroy', $copa->id) }}"
@@ -77,24 +75,22 @@
 </div>
 
 </div>
+</div>{{-- /row --}}
 
 {{-- MODAL EDITAR COPA --}}
 <div class="modal fade" id="modalEditarCopa" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog"
-         x-data="{
-            get nombreAuto() { return 'Copa Andaluza de ' + ({bloque:'Bloque',dificultad:'Dificultad',velocidad:'Velocidad'}[copa.tipo]||copa.tipo) + ' ' + copa.temporada; }
-         }">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Editar copa — <span x-text="copa.name"></span></h5>
+                <h5 class="modal-title">Editar copa — <span id="editarCopaNombreTitle"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" :action="'/admin/copas/' + copa.id">
+            <form method="POST" action="" id="editarCopaForm">
                 @csrf @method('PATCH')
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Tipo</label>
-                        <select name="tipo" class="form-select" x-model="copa.tipo" required>
+                        <select name="tipo" id="editarCopaTipo" class="form-select" required>
                             <option value="bloque">Bloque</option>
                             <option value="dificultad">Dificultad</option>
                             <option value="velocidad">Velocidad</option>
@@ -102,16 +98,13 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Temporada (año)</label>
-                        <input type="number" name="temporada" class="form-control"
-                               x-model="copa.temporada" min="2000" max="2100" required>
+                        <input type="number" name="temporada" id="editarCopaTemporada" class="form-control"
+                               min="2000" max="2100" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Nombre</label>
-                        <input type="text" name="name" class="form-control"
-                               x-model="copa.name" maxlength="150" required>
-                        <div class="form-text text-muted">
-                            Nombre automático: <span x-text="nombreAuto"></span>
-                        </div>
+                        <input type="text" name="name" id="editarCopaName" class="form-control"
+                               maxlength="150" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -122,6 +115,17 @@
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('modalEditarCopa').addEventListener('show.bs.modal', function (event) {
+    const btn = event.relatedTarget;
+    document.getElementById('editarCopaForm').action = '/admin/copas/' + btn.dataset.id;
+    document.getElementById('editarCopaNombreTitle').textContent = btn.dataset.name;
+    document.getElementById('editarCopaTipo').value = btn.dataset.tipo;
+    document.getElementById('editarCopaTemporada').value = btn.dataset.temporada;
+    document.getElementById('editarCopaName').value = btn.dataset.name;
+});
+</script>
 
 {{-- MODAL CREAR COPA --}}
 <div class="modal fade" id="modalCrearCopa" tabindex="-1" aria-hidden="true">
@@ -175,5 +179,6 @@
         </div>
     </div>
 </div>
+</div>{{-- /x-data --}}
 
 @endsection

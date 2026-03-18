@@ -23,6 +23,7 @@ class Competicion extends Model
         'name',
         'provincia',
         'fecha_realizacion',
+        'fecha_fin',
         'tipo',
         'campeonato',
         'categorias',
@@ -32,6 +33,7 @@ class Competicion extends Model
     {
         return [
             'fecha_realizacion' => 'datetime',
+            'fecha_fin'         => 'datetime',
             'campeonato'        => 'boolean',
             'categorias'        => 'array',
         ];

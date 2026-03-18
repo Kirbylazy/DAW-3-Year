@@ -10,10 +10,6 @@
 
 <div class="col">
 
-@if(session('status'))
-    <div class="alert alert-success alert-dismissible fade show">{{ session('status') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
-@endif
-
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Rocódromos</h4>
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCrearRoco">+ Crear Rocódromo</button>

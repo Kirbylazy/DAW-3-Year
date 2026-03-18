@@ -19,8 +19,8 @@ return new class extends Migration
                   ->constrained('competicions')
                   ->cascadeOnDelete();
 
-            $table->string('tipoDato');
-            $table->string('dato');
+            $table->string('tipoDato')->nullable();
+            $table->string('dato')->nullable();
             $table->timestamps();
 
             $table->unique(['user_id', 'competicion_id']);
