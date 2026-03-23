@@ -189,28 +189,23 @@
                     </form>
                 @endif
 
-                {{-- Paso 3: Enviar inscripción --}}
-                @if($estado !== 'pendiente' && $estado !== 'aprobada' && !$esPasada)
-                    <hr>
-                    <h6 class="mb-2">3. Enviar inscripción</h6>
+                {{-- Botón de confirmación de inscripción --}}
+                @if($estado !== 'pendiente' && $estado !== 'aprobada')
                     @php
                         $licenciaOk       = $licenciaAnual || $inscripcion?->licencia_path;
                         $puedeInscribirse = $licenciaOk && $inscripcion?->pago_path;
                     @endphp
+                    <hr>
                     <form method="POST" action="{{ route('inscripciones.store', $competicion->id) }}">
                         @csrf
-                        <button class="btn btn-success {{ $puedeInscribirse ? '' : 'disabled' }}"
+                        <button class="btn btn-success btn-lg {{ $puedeInscribirse ? '' : 'disabled' }}"
                                 {{ $puedeInscribirse ? '' : 'disabled' }}>
-                            @if($estado === 'rechazada')
-                                Reinscribirme
-                            @else
-                                Inscribirme
-                            @endif
+                            {{ $estado === 'rechazada' ? 'Confirmar reinscripción' : 'Confirmar inscripción' }}
                         </button>
                         @if(!$puedeInscribirse)
-                            <span class="text-muted small ms-2">
+                            <div class="text-muted small mt-2">
                                 {{ $licenciaOk ? 'Sube el justificante de pago para continuar.' : 'Sube la licencia y el justificante de pago para continuar.' }}
-                            </span>
+                            </div>
                         @endif
                     </form>
                 @endif

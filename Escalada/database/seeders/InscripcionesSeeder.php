@@ -39,7 +39,9 @@ class InscripcionesSeeder extends Seeder
         }
 
         $competiciones = Competicion::all();
-        $competidores  = User::where('rol', 'competidor')->pluck('id')->shuffle();
+        $competidores  = User::where('rol', 'competidor')
+            ->whereNotIn('email', array_map(fn($i) => "competidor{$i}@escalada.com", range(1, 5)))
+            ->pluck('id')->shuffle();
 
         if ($competidores->count() < 150) {
             $this->command->warn('Hay menos de 150 competidores. Se usarán todos los disponibles.');
