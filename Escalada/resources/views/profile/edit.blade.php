@@ -1,3 +1,40 @@
+{{--
+    Perfil del usuario — Edición de datos personales.
+
+    Vista unificada que combina las tres secciones del perfil en una sola página
+    con tarjetas Bootstrap (reemplaza los partials de Breeze que usan Tailwind).
+
+    Recibe datos de ProfileController@edit:
+      - $user → el usuario autenticado (auth()->user())
+
+    Secciones:
+      1. Datos personales → formulario PATCH a profile.update
+         Campos: nombre, email, DNI, fecha nacimiento, provincia, talla, género, rol (solo lectura)
+      2. Cambiar contraseña → formulario PUT a password.update
+         Campos: contraseña actual, nueva contraseña, confirmación
+      3. Zona de peligro → botón que abre modal de eliminación de cuenta
+         Modal: pide contraseña de confirmación, DELETE a profile.destroy
+
+    Error bags separados:
+      - $errors → errores del formulario de datos personales
+      - $errors->updatePassword → errores del formulario de contraseña
+      - $errors->userDeletion → errores del modal de eliminación
+
+    Session status:
+      - 'profile-updated' → éxito al actualizar datos
+      - 'password-updated' → éxito al cambiar contraseña
+
+    Extiende: layouts/app.blade.php
+
+    NOTA: Los partials originales de Breeze en profile/partials/ (update-profile-information-form,
+    update-password-form, delete-user-form) se mantienen como referencia pero NO se usan.
+    Esta vista los reemplaza con Bootstrap 5.
+
+    Relacionado con:
+      - ProfileController → edit(), update(), destroy()
+      - routes/web.php → rutas profile.edit, profile.update, profile.destroy
+      - admin/usuarios.blade.php → el admin puede editar cualquier usuario
+--}}
 @extends('layouts.app')
 @section('title', 'Mi perfil')
 
@@ -7,14 +44,23 @@
 
         <h3 class="mb-4">Mi perfil</h3>
 
-        {{-- Datos personales --}}
+        {{-- ══════════════════════════════════════════════════════════════
+             1. DATOS PERSONALES
+             ══════════════════════════════════════════════════════════════
+             Formulario PATCH a profile.update (ProfileController@update).
+             Incluye campos adicionales sobre los de Breeze estándar:
+             DNI, fecha nacimiento, provincia, talla, género.
+             El rol se muestra como campo deshabilitado (solo el admin puede cambiarlo).
+        ──────────────────────────────────────────────────────────────── --}}
         <div class="card mb-4">
             <div class="card-header fw-semibold">Datos personales</div>
             <div class="card-body">
 
+                {{-- Mensaje de éxito --}}
                 @if(session('status') === 'profile-updated')
                     <div class="alert alert-success">Perfil actualizado correctamente.</div>
                 @endif
+                {{-- Errores de validación --}}
                 @if($errors->any())
                     <div class="alert alert-danger">
                         <ul class="mb-0">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
@@ -79,6 +125,7 @@
                             </select>
                         </div>
 
+                        {{-- Rol: solo lectura, solo el admin puede cambiarlo --}}
                         <div class="col-md-4 d-flex align-items-end">
                             <div class="w-100">
                                 <label class="form-label fw-semibold">Rol</label>
@@ -95,7 +142,12 @@
             </div>
         </div>
 
-        {{-- Cambiar contraseña --}}
+        {{-- ══════════════════════════════════════════════════════════════
+             2. CAMBIAR CONTRASEÑA
+             ══════════════════════════════════════════════════════════════
+             Formulario PUT a password.update (PasswordController de Breeze).
+             Usa error bag 'updatePassword' separado del formulario principal.
+        ──────────────────────────────────────────────────────────────── --}}
         <div class="card mb-4">
             <div class="card-header fw-semibold">Cambiar contraseña</div>
             <div class="card-body">
@@ -132,7 +184,13 @@
             </div>
         </div>
 
-        {{-- Eliminar cuenta --}}
+        {{-- ══════════════════════════════════════════════════════════════
+             3. ZONA DE PELIGRO — ELIMINAR CUENTA
+             ══════════════════════════════════════════════════════════════
+             Tarjeta con borde rojo + botón que abre modal de confirmación.
+             Requiere contraseña para confirmar la eliminación.
+             DELETE a profile.destroy (ProfileController@destroy).
+        ──────────────────────────────────────────────────────────────── --}}
         <div class="card border-danger">
             <div class="card-header fw-semibold text-danger">Zona de peligro</div>
             <div class="card-body">
@@ -147,7 +205,7 @@
     </div>
 </div>
 
-{{-- Modal eliminar cuenta --}}
+{{-- Modal de confirmación de eliminación de cuenta --}}
 <div class="modal fade" id="modalEliminarCuenta" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -159,6 +217,7 @@
                 @csrf @method('DELETE')
                 <div class="modal-body">
                     <p>Introduce tu contraseña para confirmar la eliminación de tu cuenta.</p>
+                    {{-- Errores del error bag 'userDeletion' --}}
                     @if($errors->userDeletion->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">@foreach($errors->userDeletion->all() as $e)<li>{{ $e }}</li>@endforeach</ul>

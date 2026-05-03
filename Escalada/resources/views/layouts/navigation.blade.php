@@ -1,3 +1,20 @@
+{{--
+    Componente de navegación original de Breeze (Tailwind CSS).
+
+    NOTA: Este archivo NO se usa en la aplicación. La navegación real está
+    integrada directamente en layouts/app.blade.php usando Bootstrap 5.
+
+    Se mantiene como referencia del scaffolding original de Laravel Breeze.
+    Usa clases de Tailwind CSS (text-gray-500, bg-white, etc.) y componentes
+    Blade de Breeze (x-nav-link, x-dropdown, x-responsive-nav-link).
+
+    Si se necesitara restaurar la navegación Breeze original, este archivo
+    se incluiría en el layout con @include('layouts.navigation').
+
+    Relacionado con:
+      - layouts/app.blade.php → layout real que incluye su propia navbar Bootstrap
+      - components/*.blade.php → componentes Breeze usados aquí (nav-link, dropdown, etc.)
+--}}
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

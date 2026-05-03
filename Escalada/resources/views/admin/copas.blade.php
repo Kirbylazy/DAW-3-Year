@@ -1,7 +1,46 @@
+{{--
+    Admin — Gestión de Copas/Torneos.
+
+    Panel de administración para gestionar copas (torneos) de escalada.
+    Accesible solo para admins vía middleware 'rol:admin'.
+
+    Recibe datos de AdminController@copas:
+      - $copas → colección de copas con $copa->competiciones_count (withCount)
+      - $filtro → filtro activo: 'todas' o 'este_año' (por defecto 'todas')
+
+    Funcionalidades:
+      1. Tabla de copas con nombre, tipo (badge), temporada y nº de pruebas asociadas
+      2. Filtro por año (select que recarga la página)
+      3. Botón "Editar" → abre modal con datos precargados vía JS vanilla
+      4. Botón "Eliminar" → formulario DELETE con confirmación
+      5. Modal "Crear Copa" → formulario con Alpine.js para nombre auto-generado
+      6. Modal "Editar Copa" → formulario PATCH con datos rellenados por show.bs.modal
+
+    Interactividad:
+      - Alpine.js en el modal de creación: genera nombre automático
+        "Copa Andaluza de [Tipo] [Temporada]" al cambiar tipo o temporada
+      - JS vanilla en el modal de edición: usa evento show.bs.modal para
+        leer data-attributes del botón y rellenar el formulario
+
+    Rutas usadas:
+      - admin.copas.store → CopaController@store (POST, crear copa)
+      - /admin/copas/{id} → CopaController@update (PATCH, editar copa)
+      - admin.copas.destroy → CopaController@destroy (DELETE, eliminar copa)
+
+    Extiende: layouts/app.blade.php
+    Incluye: admin/partials/sidebar.blade.php
+
+    Relacionado con:
+      - admin/pruebas.blade.php → gestión de competiciones (usan copas como FK)
+      - dashboard/admin.blade.php → versión resumida con modales similares
+      - CopaController → CRUD de copas
+      - Copa (modelo) → name, tipo, temporada, relación hasMany competiciones
+--}}
 @extends('layouts.app')
 @section('title', 'Admin — Copas')
 
 @section('content')
+{{-- Contenedor Alpine.js para gestionar el modal de edición --}}
 <div x-data="{
     copa: {},
     abrir(c) { this.copa = c; this.$refs.editarCopaForm.action = '/admin/copas/' + c.id; },
@@ -9,17 +48,20 @@
 }">
 <div class="row g-4">
 
+{{-- Sidebar de navegación del panel admin --}}
 <div class="col-auto">
     @include('admin.partials.sidebar')
 </div>
 
 <div class="col">
 
+{{-- Cabecera: título + botón crear --}}
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Copas</h4>
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCrearCopa">+ Crear Copa</button>
 </div>
 
+{{-- Filtro: todas las copas o solo las de este año --}}
 <form method="GET" class="mb-3">
     <select name="filtro" class="form-select" style="width:auto" onchange="this.form.submit()">
         <option value="todas"    @selected($filtro==='todas')>Todas las copas</option>
@@ -27,6 +69,7 @@
     </select>
 </form>
 
+{{-- Tabla de copas --}}
 <div class="card">
     <div class="card-body p-0">
         <table class="table table-hover align-middle mb-0">
@@ -45,9 +88,12 @@
                         <td class="fw-semibold">{{ $copa->name }}</td>
                         <td><span class="badge bg-secondary">{{ $copa->tipo }}</span></td>
                         <td>{{ $copa->temporada }}</td>
+                        {{-- Nº de competiciones asociadas (withCount en el controlador) --}}
                         <td class="text-center">{{ $copa->competiciones_count }}</td>
                         <td>
                             <div class="d-flex gap-1">
+                                {{-- Botón Editar: pasa datos al modal vía data-attributes
+                                     El script JS los lee con el evento show.bs.modal --}}
                                 <button class="btn btn-sm btn-outline-primary"
                                         data-bs-toggle="modal" data-bs-target="#modalEditarCopa"
                                         data-id="{{ $copa->id }}"
@@ -56,6 +102,7 @@
                                         data-temporada="{{ $copa->temporada }}">
                                     Editar
                                 </button>
+                                {{-- Botón Eliminar: DELETE con confirmación JS --}}
                                 <form method="POST" action="{{ route('admin.copas.destroy', $copa->id) }}"
                                       onsubmit="return confirm('¿Eliminar «{{ addslashes($copa->name) }}»?')">
                                     @csrf @method('DELETE')
@@ -77,7 +124,14 @@
 </div>
 </div>{{-- /row --}}
 
-{{-- MODAL EDITAR COPA --}}
+{{-- ══════════════════════════════════════════════════════════════════════
+     MODAL EDITAR COPA
+     ══════════════════════════════════════════════════════════════════════
+     Formulario para editar una copa existente.
+     Los campos se rellenan con JS vanilla al abrir el modal (show.bs.modal).
+     La action del formulario se actualiza dinámicamente con el ID de la copa.
+     PATCH a /admin/copas/{id} (CopaController@update)
+──────────────────────────────────────────────────────────────────────── --}}
 <div class="modal fade" id="modalEditarCopa" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -116,6 +170,8 @@
     </div>
 </div>
 
+{{-- Script: al abrir el modal de edición, lee data-attributes del botón
+     que lo abrió y rellena los campos del formulario --}}
 <script>
 document.getElementById('modalEditarCopa').addEventListener('show.bs.modal', function (event) {
     const btn = event.relatedTarget;
@@ -127,7 +183,13 @@ document.getElementById('modalEditarCopa').addEventListener('show.bs.modal', fun
 });
 </script>
 
-{{-- MODAL CREAR COPA --}}
+{{-- ══════════════════════════════════════════════════════════════════════
+     MODAL CREAR COPA
+     ══════════════════════════════════════════════════════════════════════
+     Formulario para crear nueva copa con nombre auto-generado vía Alpine.js.
+     Mismo modal que en dashboard/admin.blade.php.
+     POST a admin.copas.store (CopaController@store)
+──────────────────────────────────────────────────────────────────────── --}}
 <div class="modal fade" id="modalCrearCopa" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog"
          x-data="{
@@ -149,6 +211,7 @@ document.getElementById('modalEditarCopa').addEventListener('show.bs.modal', fun
                     @if($errors->any())
                         <div class="alert alert-danger"><ul class="mb-0">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul></div>
                     @endif
+                    {{-- Tipo de copa --}}
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Tipo</label>
                         <select name="tipo" class="form-select" x-model="tipo" @change="actualizarNombre()" required>
@@ -157,12 +220,14 @@ document.getElementById('modalEditarCopa').addEventListener('show.bs.modal', fun
                             <option value="velocidad">Velocidad</option>
                         </select>
                     </div>
+                    {{-- Temporada --}}
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Temporada (año)</label>
                         <input type="number" name="temporada" class="form-control"
                                x-model="temporada" @input="actualizarNombre()"
                                min="2000" max="2100" required>
                     </div>
+                    {{-- Nombre auto-generado --}}
                     <div class="mb-3">
                         <label class="form-label fw-semibold">
                             Nombre <span class="fw-normal text-muted small">(se genera automáticamente)</span>

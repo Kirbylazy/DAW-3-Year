@@ -9,10 +9,21 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * LoginRequest — Validación y autenticación del formulario de login.
+ *
+ * Generado por Laravel Breeze. Maneja:
+ *   1. Validación de campos (email y password obligatorios)
+ *   2. Intento de autenticación contra la BD
+ *   3. Rate limiting (máximo 5 intentos fallidos, luego bloqueo temporal)
+ *
+ * Usado por: AuthenticatedSessionController::store() (routes/auth.php POST /login)
+ * Vista: auth/login.blade.php
+ */
 class LoginRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Autorización — Cualquier visitante puede intentar hacer login.
      */
     public function authorize(): bool
     {
@@ -20,9 +31,8 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * Reglas de validación del formulario de login.
+     * Solo requiere email válido y contraseña.
      */
     public function rules(): array
     {
@@ -33,36 +43,51 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
+     * Intentar autenticar al usuario con las credenciales proporcionadas.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * Primero verifica que no se haya superado el límite de intentos (rate limiting).
+     * Si las credenciales son incorrectas, incrementa el contador de intentos.
+     * Si son correctas, limpia el contador.
+     *
+     * El checkbox "remember" habilita la sesión persistente (remember_token en BD).
+     *
+     * @throws ValidationException Si las credenciales son incorrectas
      */
     public function authenticate(): void
     {
+        // Verificar rate limiting antes de intentar autenticar
         $this->ensureIsNotRateLimited();
 
+        // Intentar login con email + password; $this->boolean('remember') para "Recuérdame"
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            // Login fallido: incrementar contador de intentos
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => trans('auth.failed'), // "These credentials do not match our records."
             ]);
         }
 
+        // Login exitoso: limpiar contador de intentos fallidos
         RateLimiter::clear($this->throttleKey());
     }
 
     /**
-     * Ensure the login request is not rate limited.
+     * Verificar que no se ha superado el límite de intentos de login.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * Máximo 5 intentos. Después se bloquea temporalmente y se muestra
+     * cuántos segundos faltan para poder reintentar.
+     *
+     * @throws ValidationException Si se superó el límite de intentos
      */
     public function ensureIsNotRateLimited(): void
     {
+        // Máximo 5 intentos por clave (email + IP)
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
+        // Disparar evento Lockout (para logging/auditoría)
         event(new Lockout($this));
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
@@ -76,7 +101,9 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the rate limiting throttle key for the request.
+     * Generar clave única para el rate limiter.
+     * Combina email (en minúsculas, sin acentos) + IP del cliente.
+     * Así cada combinación email+IP tiene su propio contador de intentos.
      */
     public function throttleKey(): string
     {

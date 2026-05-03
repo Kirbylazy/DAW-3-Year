@@ -1,16 +1,49 @@
+{{--
+    Panel Árbitro — Pestaña "Entrenador" (gestión de equipo).
+
+    Vista del panel con sidebar que muestra las funcionalidades de entrenador
+    heredadas por el árbitro (roles jerárquicos: arbitro > entrenador).
+
+    Recibe datos de ArbitroController@panelEntrenador:
+      - $competidores → competidores aceptados en su equipo (estado 'accepted')
+      - $pendientes → solicitudes de vínculo pendientes (estado 'pending')
+      - $userBuscado → resultado de búsqueda por DNI o null
+      - $competiciones → competiciones futuras para inscripción
+
+    Secciones (idénticas a dashboard/entrenador.blade.php):
+      1. Mi equipo → tabla de competidores aceptados con desvinculación
+      2. Solicitudes pendientes → lista de solicitudes enviadas
+      3. Añadir competidor por DNI → buscador + enviar solicitud
+      4. Inscribir en competición → selector + checkboxes de participantes
+
+    Rutas usadas:
+      - entrenador.eliminar_competidor → desvincular/cancelar solicitud
+      - arbitro.panel.entrenador → GET para búsqueda por DNI (recarga misma vista)
+      - entrenador.solicitar → POST enviar solicitud de vínculo
+      - entrenador.inscribir → POST inscribir participantes
+
+    Extiende: layouts/app.blade.php
+    Incluye: arbitro/partials/sidebar.blade.php
+
+    Relacionado con:
+      - dashboard/entrenador.blade.php → misma funcionalidad sin sidebar
+      - dashboard/arbitro.blade.php → combinación de todas las funcionalidades
+      - EntrenadorController → solicitar(), inscribir(), eliminarCompetidor()
+--}}
 @extends('layouts.app')
 @section('title', 'Panel Árbitro — Entrenador')
 
 @section('content')
 <div class="row g-4">
 
+{{-- Sidebar con pestañas --}}
 <div class="col-auto">
     @include('arbitro.partials.sidebar')
 </div>
 
 <div class="col">
 
-{{-- Mi equipo --}}
+{{-- ── 1. MI EQUIPO ───────────────────────────────────────────────────── --}}
 <div class="card mb-4">
     <div class="card-header fw-semibold">
         Mi equipo <span class="badge bg-success ms-1">Entrenador</span>
@@ -44,7 +77,7 @@
     </div>
 </div>
 
-{{-- Solicitudes pendientes --}}
+{{-- ── 2. SOLICITUDES PENDIENTES ──────────────────────────────────────── --}}
 @if($pendientes->isNotEmpty())
 <div class="card mb-4 border-secondary">
     <div class="card-header fw-semibold text-muted">Solicitudes enviadas (pendientes)</div>
@@ -65,10 +98,11 @@
 </div>
 @endif
 
-{{-- Añadir competidor por DNI --}}
+{{-- ── 3. AÑADIR COMPETIDOR POR DNI ───────────────────────────────────── --}}
 <div class="card mb-4">
     <div class="card-header fw-semibold">Añadir competidor por DNI</div>
     <div class="card-body">
+        {{-- Búsqueda GET: recarga esta misma vista con ?dni=valor --}}
         <form method="GET" action="{{ route('arbitro.panel.entrenador') }}" class="d-flex gap-2 mb-0">
             <input type="text" name="dni" class="form-control" style="max-width:220px"
                    placeholder="DNI del competidor" value="{{ request('dni') }}">
@@ -95,7 +129,7 @@
     </div>
 </div>
 
-{{-- Inscribir en competición --}}
+{{-- ── 4. INSCRIBIR EN COMPETICIÓN ────────────────────────────────────── --}}
 @if($competiciones->isNotEmpty())
 <div class="card mb-4">
     <div class="card-header fw-semibold">Inscribir en competición</div>
@@ -116,6 +150,7 @@
             <div class="mb-3">
                 <label class="form-label">Participantes</label>
                 <div class="border rounded p-3">
+                    {{-- El propio árbitro como participante --}}
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox"
                                name="participantes[]" value="{{ auth()->id() }}" id="self">
@@ -124,6 +159,7 @@
                             <span class="badge bg-warning text-dark ms-1">Árbitro</span>
                         </label>
                     </div>
+                    {{-- Competidores del equipo --}}
                     @foreach($competidores as $comp)
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox"

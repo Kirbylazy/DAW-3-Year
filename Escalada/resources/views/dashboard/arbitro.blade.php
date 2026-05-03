@@ -1,3 +1,33 @@
+{{--
+    Dashboard del árbitro — Vista principal para usuarios con rol 'arbitro'.
+
+    El árbitro hereda funcionalidades de entrenador y competidor (roles jerárquicos),
+    por lo que este dashboard combina tres áreas:
+      1. Competiciones asignadas como árbitro (función exclusiva del rol)
+      2. Gestión de equipo como entrenador (función heredada)
+      3. Inscripción en competiciones como competidor (función heredada)
+
+    Recibe datos del controlador (ruta 'dashboard' en web.php, lógica en closure):
+      - $competicionesArbitradas → competiciones donde este user es el árbitro asignado
+      - $competidores → competidores aceptados en su equipo (entrenador_competidor, estado 'accepted')
+      - $pendientes → solicitudes de vínculo pendientes (estado 'pending')
+      - $userBuscado → resultado de búsqueda por DNI o null
+      - $competiciones → competiciones futuras disponibles
+      - $misInscripciones → competiciones donde está inscrito como participante
+      - $inscripcionesEquipo → inscripciones de los competidores de su equipo
+
+    NOTA: El árbitro también tiene un panel con sidebar separado en arbitro/panel/*.blade.php
+    que organiza la misma información en pestañas (árbitro/entrenador/deportista).
+
+    Extiende: layouts/app.blade.php
+
+    Relacionado con:
+      - arbitro/competicion.blade.php → vista detallada de inscripciones por categoría
+      - arbitro/categoria.blade.php → verificación de documentación de cada competidor
+      - arbitro/panel/*.blade.php → panel alternativo con sidebar
+      - dashboard/entrenador.blade.php → las secciones 2-6 son prácticamente iguales
+      - EntrenadorController → solicitar(), inscribir(), eliminarCompetidor()
+--}}
 @extends('layouts.app')
 
 @section('title', 'Dashboard — Árbitro')
@@ -5,7 +35,11 @@
 @section('content')
 <h3 class="mb-4">Panel de árbitro</h3>
 
-{{-- ── 1. MIS COMPETICIONES ASIGNADAS ─────────────────────────────────── --}}
+{{-- ── 1. MIS COMPETICIONES ASIGNADAS ─────────────────────────────────────
+     Tabla con las competiciones donde este usuario es el árbitro designado.
+     Desde aquí accede a gestionar inscripciones (verificar documentos).
+     Enlace "Gestionar inscripciones" → arbitro.competicion (ArbitroController@competicion)
+──────────────────────────────────────────────────────────────────────── --}}
 <div class="card mb-4">
     <div class="card-header fw-semibold">Mis competiciones asignadas</div>
     <div class="card-body p-0">
@@ -37,6 +71,7 @@
                             <td>{{ $c->provincia }}</td>
                             <td>{{ $c->copa?->name ?? '—' }}</td>
                             <td class="text-end">
+                                {{-- Enlace a la vista de gestión de inscripciones por categoría --}}
                                 <a href="{{ route('arbitro.competicion', $c->id) }}"
                                    class="btn btn-sm btn-primary">
                                     Gestionar inscripciones
@@ -50,7 +85,11 @@
     </div>
 </div>
 
-{{-- ── 2. MI EQUIPO (hereda derechos de entrenador) ───────────────────── --}}
+{{-- ── 2. MI EQUIPO (hereda derechos de entrenador) ───────────────────────
+     Igual que en dashboard/entrenador.blade.php:
+     tabla de competidores aceptados con botón de desvincular.
+     DELETE a entrenador.eliminar_competidor (EntrenadorController@eliminarCompetidor)
+──────────────────────────────────────────────────────────────────────── --}}
 <div class="card mb-4">
     <div class="card-header fw-semibold">
         Mi equipo <span class="badge bg-success ms-1">Entrenador</span>
@@ -88,7 +127,10 @@
     </div>
 </div>
 
-{{-- ── 3. SOLICITUDES PENDIENTES ────────────────────────────────────────── --}}
+{{-- ── 3. SOLICITUDES PENDIENTES ──────────────────────────────────────────
+     Solicitudes de vínculo enviadas a competidores que aún no han respondido.
+     El árbitro puede cancelar la solicitud.
+──────────────────────────────────────────────────────────────────────── --}}
 @if($pendientes->isNotEmpty())
     <div class="card mb-4 border-secondary">
         <div class="card-header fw-semibold text-muted">Solicitudes enviadas (pendientes)</div>
@@ -111,7 +153,10 @@
     </div>
 @endif
 
-{{-- ── 4. AÑADIR COMPETIDOR POR DNI ─────────────────────────────────────── --}}
+{{-- ── 4. AÑADIR COMPETIDOR POR DNI ───────────────────────────────────────
+     Buscador de competidores por DNI + botón de enviar solicitud.
+     Igual que en dashboard/entrenador.blade.php.
+──────────────────────────────────────────────────────────────────────── --}}
 <div class="card mb-4">
     <div class="card-header fw-semibold">Añadir competidor por DNI</div>
     <div class="card-body">
@@ -141,7 +186,11 @@
     </div>
 </div>
 
-{{-- ── 5. INSCRIBIR EN COMPETICIÓN ──────────────────────────────────────── --}}
+{{-- ── 5. INSCRIBIR EN COMPETICIÓN ────────────────────────────────────────
+     El árbitro puede inscribirse a sí mismo y a sus competidores.
+     Igual que en dashboard/entrenador.blade.php, pero con badge "Árbitro".
+     POST a entrenador.inscribir (EntrenadorController@inscribir)
+──────────────────────────────────────────────────────────────────────── --}}
 @if($competiciones->isNotEmpty())
     <div class="card mb-4">
         <div class="card-header fw-semibold">Inscribir en competición</div>
@@ -162,6 +211,7 @@
                 <div class="mb-3">
                     <label class="form-label">Participantes</label>
                     <div class="border rounded p-3">
+                        {{-- Checkbox para inscribirse a sí mismo (como árbitro) --}}
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox"
                                    name="participantes[]" value="{{ auth()->id() }}" id="self">
@@ -170,6 +220,7 @@
                                 <span class="badge bg-warning text-dark ms-1">Árbitro</span>
                             </label>
                         </div>
+                        {{-- Checkboxes de competidores del equipo --}}
                         @foreach($competidores as $comp)
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox"
@@ -190,7 +241,10 @@
     </div>
 @endif
 
-{{-- ── 6. INSCRIPCIONES ACTIVAS ─────────────────────────────────────────── --}}
+{{-- ── 6. INSCRIPCIONES ACTIVAS ───────────────────────────────────────────
+     Tabla combinada de inscripciones propias + del equipo.
+     Igual que en dashboard/entrenador.blade.php.
+──────────────────────────────────────────────────────────────────────── --}}
 <div class="card mb-4">
     <div class="card-header fw-semibold">Inscripciones activas</div>
     <div class="card-body p-0">
